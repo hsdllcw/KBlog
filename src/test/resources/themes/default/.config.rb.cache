@@ -1,0 +1,10 @@
+#Compass configuration cache
+#Wed Mar 11 18:35:32 CST 2020
+cache_dir=../../target/.sass-cache
+images_dir=assets/images
+css_dir=assets/stylesheets
+http_stylesheets_path=/stylesheets
+http_javascripts_path=/javascripts
+javascripts_dir=assets/javascripts
+http_images_path=/images
+sass_dir=sass

@@ -1,0 +1,58 @@
+- {type: compass, path: ".", config: "config.rb"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shAutoloader.js",       output: "assets/plugins/syntax-highlighter/scripts/shAutoloader.js",     merge-only: true}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shCore.js",             output: "assets/plugins/syntax-highlighter/scripts/shCore.js",           merge-only: true}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shLegacy.js",           output: "assets/plugins/syntax-highlighter/scripts/shLegacy.js",         merge-only: true}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushAppleScript.js", output: "assets/plugins/syntax-highlighter/scripts/shBrushAppleScript.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushAS3.js",         output: "assets/plugins/syntax-highlighter/scripts/shBrushAS3.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushBash.js",        output: "assets/plugins/syntax-highlighter/scripts/shBrushBash.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushColdFusion.js",  output: "assets/plugins/syntax-highlighter/scripts/shBrushColdFusion.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushCpp.js",         output: "assets/plugins/syntax-highlighter/scripts/shBrushCpp.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushCSharp.js",      output: "assets/plugins/syntax-highlighter/scripts/shBrushCSharp.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushCss.js",         output: "assets/plugins/syntax-highlighter/scripts/shBrushCss.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushDelphi.js",      output: "assets/plugins/syntax-highlighter/scripts/shBrushDelphi.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushDiff.js",        output: "assets/plugins/syntax-highlighter/scripts/shBrushDiff.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushErlang.js",      output: "assets/plugins/syntax-highlighter/scripts/shBrushErlang.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushGroovy.js",      output: "assets/plugins/syntax-highlighter/scripts/shBrushGroovy.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushJava.js",        output: "assets/plugins/syntax-highlighter/scripts/shBrushJava.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushJavaFX.js",      output: "assets/plugins/syntax-highlighter/scripts/shBrushJavaFX.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushJScript.js",     output: "assets/plugins/syntax-highlighter/scripts/shBrushJScript.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushPerl.js",        output: "assets/plugins/syntax-highlighter/scripts/shBrushPerl.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushPhp.js",         output: "assets/plugins/syntax-highlighter/scripts/shBrushPhp.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushPlain.js",       output: "assets/plugins/syntax-highlighter/scripts/shBrushPlain.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushPowerShell.js",  output: "assets/plugins/syntax-highlighter/scripts/shBrushPowerShell.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushPython.js",      output: "assets/plugins/syntax-highlighter/scripts/shBrushPython.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushRuby.js",        output: "assets/plugins/syntax-highlighter/scripts/shBrushRuby.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushSass.js",        output: "assets/plugins/syntax-highlighter/scripts/shBrushSass.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushScala.js",       output: "assets/plugins/syntax-highlighter/scripts/shBrushScala.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushSql.js",         output: "assets/plugins/syntax-highlighter/scripts/shBrushSql.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushVb.js",          output: "assets/plugins/syntax-highlighter/scripts/shBrushVb.js"}
+- {type: js, input: "origin/plugins/syntax-highlighter/scripts/shBrushXml.js",         output: "assets/plugins/syntax-highlighter/scripts/shBrushXml.js"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCore.css",            output: "assets/plugins/syntax-highlighter/styles/shCore.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreDefault.css",     output: "assets/plugins/syntax-highlighter/styles/shCoreDefault.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreDjango.css",      output: "assets/plugins/syntax-highlighter/styles/shCoreDjango.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreEclipse.css",     output: "assets/plugins/syntax-highlighter/styles/shCoreEclipse.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreEmacs.css",       output: "assets/plugins/syntax-highlighter/styles/shCoreEmacs.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreFadeToGrey.css",  output: "assets/plugins/syntax-highlighter/styles/shCoreFadeToGrey.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreMDUltra.css",     output: "assets/plugins/syntax-highlighter/styles/shCoreMDUltra.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreMidnight.css",    output: "assets/plugins/syntax-highlighter/styles/shCoreMidnight.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shCoreRDark.css",       output: "assets/plugins/syntax-highlighter/styles/shCoreRDark.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeDefault.css",    output: "assets/plugins/syntax-highlighter/styles/shThemeDefault.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeDjango.css",     output: "assets/plugins/syntax-highlighter/styles/shThemeDjango.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeEclipse.css",    output: "assets/plugins/syntax-highlighter/styles/shThemeEclipse.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeEmacs.css",      output: "assets/plugins/syntax-highlighter/styles/shThemeEmacs.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeFadeToGrey.css", output: "assets/plugins/syntax-highlighter/styles/shThemeFadeToGrey.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeMDUltra.css",    output: "assets/plugins/syntax-highlighter/styles/shThemeMDUltra.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeMidnight.css",   output: "assets/plugins/syntax-highlighter/styles/shThemeMidnight.css"}
+- {type: css, input: "origin/plugins/syntax-highlighter/styles/shThemeRDark.css",      output: "assets/plugins/syntax-highlighter/styles/shThemeRDark.css"}
+- type: js
+  input: [origin/javascripts/libs/modernizr.min.js, origin/javascripts/libs/jquery.min.js,
+             origin/javascripts/opoopress.js, origin/javascripts/libs/swfobject-modified.min.js]
+  output: 'assets/javascripts/opoopress.min.js'
+- {type: js, input: "origin/javascripts/html5shiv.min.js", output: "assets/javascripts/html5shiv.min.js"}
+- {type: js, input: "origin/javascripts/twitter.js", output: "assets/javascripts/twitter.min.js"}
+- {type: js, input: "origin/javascripts/unsupported-browser.js", output: "assets/javascripts/unsupported-browser.js", merge-only: true}
+- {type: js, input: "origin/javascripts/pinboard.js", output: "assets/javascripts/pinboard.min.js"}
+
+# - {type: com.opoopress.theme.YourCustomBuilder, var1: value1, var2: value2}
+# - {type: js, input: origin/js/base.js, output: assets/javascripts/base.min.js}
+# - {type: css, input: ["origin/css/css1.css", "origin/css/css2.css"], output: "assets/css/css.css", merge-only: false}
