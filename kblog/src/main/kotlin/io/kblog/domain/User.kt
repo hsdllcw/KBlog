@@ -1,6 +1,10 @@
 package io.kblog.domain
 
+import cn.hutool.core.date.DatePattern
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.validator.constraints.Length
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
@@ -18,20 +22,28 @@ class User(
         @Length(max = 1)
         @Enumerated(EnumType.STRING)
         var gender: UserGender? = null,
-        @Temporal(TemporalType.TIMESTAMP)
-        var birthDate: Date? = null,
         @Enumerated(EnumType.STRING)
         var type: UserType = UserType.MEMBER,
         @Enumerated(EnumType.STRING)
         var status: UserStatus = UserStatus.NORMAL,
         @XmlTransient
+        @JsonIgnore
         @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JoinTable(name = "kblog_user_role", joinColumns = [JoinColumn(name = "user_id")], inverseJoinColumns = [JoinColumn(name = "role_id")])
         var roles: MutableSet<Role> = mutableSetOf()
 ) : UserDetails {
 
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = DatePattern.NORM_DATE_PATTERN)
+    @JsonFormat(pattern = DatePattern.NORM_DATE_PATTERN)
+    var birthDate: Date? = null
+
     private var username: String? = null
+
+    @JsonIgnore
     private var password: String? = null
+
+    @JsonIgnore
     private var credentialsNonExpired: Boolean = true
 
     enum class UserGender {
@@ -81,11 +93,13 @@ class User(
     }
 
     @Transient
+    @JsonIgnore
     override fun isAccountNonExpired(): Boolean {
         return status != UserStatus.EXPIRED
     }
 
     @Transient
+    @JsonIgnore
     override fun isAccountNonLocked(): Boolean {
         return status != UserStatus.LOCKED
     }

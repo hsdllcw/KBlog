@@ -1,5 +1,6 @@
 package io.kblog.service.impl
 
+import io.kblog.domain.Base
 import io.kblog.domain.Role
 import io.kblog.domain.User
 import io.kblog.repository.RoleDao
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class RoleServiceImpl : RoleService, BaseServiceImpl<Role>() {
+class RoleServiceImpl : RoleService, BaseServiceImpl<Role,Base.RoleVo>() {
 
     @Autowired
     private val roleDao: RoleDao? = null

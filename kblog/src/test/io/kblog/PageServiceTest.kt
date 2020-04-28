@@ -5,6 +5,7 @@ import io.kblog.service.CategoryService
 import io.kblog.service.PageService
 import io.kblog.service.TagService
 import io.kblog.service.UserService
+import org.springframework.beans.BeanUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,7 +40,7 @@ class PageServiceTest {
     @Test
     fun testSave() {
         pageService?.let {
-            it.save(Page().apply {
+            it.create(Page().apply {
                 this.author = "admin"
                 this.comments = false
                 this.creator = userService?.get(5)
@@ -50,7 +51,7 @@ class PageServiceTest {
                 this.path = "/2020-03-11-index.markdown"
                 this.keywords = "测试"
                 this.uri = "/article"
-                this.status = "A"
+                this.status = Page.PageStatus.NORMAL
             })
         }
     }
@@ -77,7 +78,25 @@ class PageServiceTest {
     }
 
     @Test
-    fun testBuild() {
-        pageService?.build(true)
+    fun test() {
+        val page = Page()
+        BeanUtils.copyProperties(
+                mapOf(
+                        "author" to "admin",
+                        "comments" to false,
+                        "keywords" to "测试",
+                        "uri" to "/article",
+                        "status" to Page.PageStatus.NORMAL,
+                        "creator" to userService?.get(5),
+                        "desription" to "就是一测试",
+                        "excerpt" to "就是一测试",
+                        "layout" to "post",
+                        "title" to "来自数据库的文档标题",
+                        "path" to "/2020-03-11-index.markdown"
+                ),
+                page
+        )
+
+        println(page)
     }
 }

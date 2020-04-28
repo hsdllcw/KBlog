@@ -1,5 +1,7 @@
 .gradle
-build/
+/kblog/src/main/webapp/**
+/kblog/src/main/webapp/admin/
+/kblog/src/main/webapp/work/**
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -26,6 +28,7 @@ logs/
 
 #Node
 node_modules/
+package-lock.json
 
 ### STS ###
 .apt_generated
@@ -45,4 +48,4 @@ node_modules/
 
 ### VS Code ###
 .vscode/
-
+/kblog/src/main/webapp/admin/

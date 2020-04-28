@@ -15,7 +15,6 @@
  */
 package org.opoo.press.impl;
 
-import io.kblog.service.impl.BaseServiceImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
@@ -29,8 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -44,7 +43,8 @@ import java.util.*;
  * @author Alex Lin
  */
 @Component("site")
-public class KSiteImpl extends BaseServiceImpl<io.kblog.domain.Page> implements Site, SiteBuilder, InitializingBean {
+@Transactional(readOnly = true)
+public class KSiteImpl implements Site, SiteBuilder, InitializingBean {
     private static final Logger log = LoggerFactory.getLogger(KSiteImpl.class);
 
     @Autowired
@@ -81,8 +81,6 @@ public class KSiteImpl extends BaseServiceImpl<io.kblog.domain.Page> implements 
     @Autowired
     private KFactoryImpl factory;
 
-    private File classPathDir = new ClassPathResource("").getFile();
-
     public KSiteImpl() throws IOException {
     }
 
@@ -116,7 +114,7 @@ public class KSiteImpl extends BaseServiceImpl<io.kblog.domain.Page> implements 
         sources = new ValidDirList();
         sources.addDir(theme.getSource());
         List<String> sourcesConfig = config.get("source_dirs");
-        sources.addDirs(classPathDir, sourcesConfig);
+        sources.addDirs(basedir, sourcesConfig);
         log.debug("Source directories: {}", sources);
 
         //assets
@@ -142,7 +140,7 @@ public class KSiteImpl extends BaseServiceImpl<io.kblog.domain.Page> implements 
 
     private Theme createTheme() throws IOException {
         var name = config.get("theme", "default");
-        var themes = new File(classPathDir, "themes");
+        var themes = new File(basedir, "themes");
         var themeDir = PathUtils.appendBaseIfNotAbsolute(themes, name);
         if (!themeDir.exists() || !themeDir.isDirectory()) {
             throw new IllegalArgumentException("Theme directory not exists or not valid, please install theme first: "
@@ -218,7 +216,8 @@ public class KSiteImpl extends BaseServiceImpl<io.kblog.domain.Page> implements 
         read();
         generate();
         render();
-        cleanup();
+        //如果输出目录webapp，会导致webapp下的文件被全部删除
+        //cleanup();
         write();
 
         StaleUtils.saveLastBuildInfo(this);

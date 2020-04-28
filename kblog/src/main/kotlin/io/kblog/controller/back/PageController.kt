@@ -1,28 +1,31 @@
 package io.kblog.controller.back
 
+import io.kblog.controller.BaseController
+import io.kblog.domain.Page
+import io.kblog.domain.Base
+import io.kblog.service.CategoryService
 import io.kblog.service.PageService
+import io.kblog.service.TagService
 import io.kblog.support.common.ResponseBean
+import io.kblog.support.config.ContextConfig
+import org.opoo.press.impl.KSiteImpl
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 
 /**
  * The PageController class.
  * @author hsdllcw on 2020/4/10.
  * @version 1.0.0
  */
-@Controller
-@RequestMapping("/admin/page")
-class PageController {
-
+@RestController
+@RequestMapping("${ContextConfig.ADMINAPIURI}/page")
+class PageController : BaseController<Page, Base.PageVo>() {
     @Autowired
-    var pageService: PageService? = null
+    lateinit var site: KSiteImpl
 
     @RequestMapping("/build/all")
-    @ResponseBody
-    fun build():Any {
-        pageService?.build(true)
+    fun build(): Any {
+        site.build(true)
         return ResponseBean()
     }
 }

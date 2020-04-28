@@ -57,7 +57,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -68,12 +72,17 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>compile</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring -->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.shiro</groupId>-->
-<!--            <artifactId>shiro-spring</artifactId>-->
-<!--            <version>1.5.2</version>-->
-<!--        </dependency>-->
+
+        <!--        <dependency>-->
+        <!--            <groupId>io.springside</groupId>-->
+        <!--            <artifactId>springside-utils</artifactId>-->
+        <!--            <version>5.0.0-RC1</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.0.7</version>
+        </dependency>
 
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
@@ -196,6 +205,11 @@
                         <artifactId>kotlin-maven-noarg</artifactId>
                         <version>${kotlin.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                        <version>21.0</version>
+                    </dependency>
                 </dependencies>
             </plugin>
             <!-- spring-boot插件。使用方式：spring-boot:run。该方式只适合在IDEA开发工具下使用，Eclipse使用该方式启动会出现无法停止tomcat服务的情况 -->
@@ -208,13 +222,20 @@
                     <!-- 关闭fork。否则使用spring-boot:run启动时，在idea中无法调试程序，在eclipse中无法关闭web服务 -->
                     <fork>false</fork>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <dependencies>
                 </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.7.0</version>
                 <executions>
                     <!-- 替换会被 maven 特别处理的 default-compile -->
                     <execution>
@@ -242,6 +263,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <release>${java.version}</release>
                     <source>${java.version}</source>
                     <target>${java.target.version}</target>
                 </configuration>
@@ -251,36 +273,47 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.3</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
         </plugins>
-        <!-- 编译时，将pom文件配置替换文件中参数配置 -->
+
         <resources>
+            <!--打包将端项目-->
             <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/webapp</directory>
-                <!--注意此次必须要放在此目录下才能被访问到 -->
-                <targetPath>META-INF/resources</targetPath>
-                <includes>
-                    <include>**/**</include>
-                </includes>
-            </resource>
-            <!-- 编译之后包含xml -->
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-            <!--     将前端项目编译并打包       -->
-            <resource>
-                <directory>../web/target</directory>
+                <directory>${project.basedir}/../web/target/admin/</directory>
                 <includes>
                     <include>**/*.*</include>
                 </includes>
-                <targetPath>../kblog-1.0.0-SNAPSHOT</targetPath>
+                <targetPath>${project.build.directory}/${project.build.finalName}/WEB-INF/classes/META-INF/resources/</targetPath>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/../web/target</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <targetPath>${project.build.directory}/${project.build.finalName}/</targetPath>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <!--包含文件夹以及子文件夹下所有资源-->
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <!-- 拷贝index.html,用于java web服务器部署 -->
+            <resource>
+                <directory>${project.build.outputDirectory}/static</directory>
+                <targetPath>${project.build.directory}/${project.build.finalName}/</targetPath>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
             </resource>
         </resources>
     </build>

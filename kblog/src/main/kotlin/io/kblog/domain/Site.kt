@@ -9,7 +9,7 @@ class Site(
         @Id
         @TableGenerator(name = "hibernate_sequences", pkColumnValue = "kblog_site", initialValue = 1, allocationSize = 10)
         @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
-        var id: Int? = null,
+        override var id: Int? = null,
         @XmlTransient
         @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
         var children: List<Site>? = arrayListOf(),
@@ -21,9 +21,9 @@ class Site(
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "parent_id")
         var parent: Site? = null,
-        var name: String? = null,
-        var number: String? = null,
-        var domain: String? = null,
-        var templateTheme: String? = null,
-        var status: Boolean? = null
-)
+        override var name: String? = null,
+        override var sign: String? = null,
+        override var domain: String? = null,
+        override var templateTheme: String? = null,
+        override var enabled: Boolean = true
+) : Base.SiteVo()

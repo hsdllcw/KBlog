@@ -1,5 +1,6 @@
 package io.kblog.service.impl
 
+import io.kblog.domain.Base
 import io.kblog.domain.OperationLog
 import io.kblog.repository.OperationLogDao
 import io.kblog.service.OperationLogService
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class OperationLogServiceImpl : OperationLogService, BaseServiceImpl<OperationLog>() {
+class OperationLogServiceImpl : OperationLogService, BaseServiceImpl<OperationLog, Base.OperationLogVo>() {
     @Autowired
     var operationLogDao: OperationLogDao? = null
 }

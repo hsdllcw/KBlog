@@ -9,13 +9,13 @@ class Global(
         @Id
         @TableGenerator(name = "hibernate_sequences", pkColumnValue = "kblog_kblog_global", initialValue = 1, allocationSize = 10)
         @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
-        var id: Int? = null,
-        var protocol: String? = null,
-        var port: Int? = null,
-        var version: String? = null,
+        override var id: Int? = null,
+        override var protocol: String = "http",
+        override var port: Int = 8080,
+        override var version: String = "1.0.0-SNAPSHOT",
         @ElementCollection
         @CollectionTable(name = "kblog_global_custom", joinColumns = [JoinColumn(name = "global_id")])
-        @MapKeyColumn(name = "key", length = 50)
-        @Column(name = "value", length = 2000)
-        var customs: Map<String?, String?>? = HashMap(0)
-)
+        @MapKeyColumn(name = "g_key")
+        @Column(name = "g_value")
+        override var customs: Map<String, String?> = mutableMapOf()
+) : Base.GlobalVo()

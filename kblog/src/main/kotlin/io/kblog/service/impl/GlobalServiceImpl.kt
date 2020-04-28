@@ -1,5 +1,6 @@
 package io.kblog.service.impl
 
+import io.kblog.domain.Base
 import io.kblog.domain.Global
 import io.kblog.repository.GlobalDao
 import io.kblog.service.GlobalService
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class GlobalServiceImpl : GlobalService, BaseServiceImpl<Global>() {
+class GlobalServiceImpl : GlobalService, BaseServiceImpl<Global,Base.GlobalVo>() {
     @Autowired
     var globalDao: GlobalDao? = null
 }

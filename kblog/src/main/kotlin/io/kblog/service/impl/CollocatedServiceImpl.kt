@@ -1,5 +1,6 @@
 package io.kblog.service.impl
 
+import io.kblog.domain.Base
 import io.kblog.domain.Collocated
 import io.kblog.repository.CollocatedDao
 import io.kblog.service.CollocatedService
@@ -14,7 +15,14 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class CollocatedServiceImpl : CollocatedService, BaseServiceImpl<Collocated>() {
+class CollocatedServiceImpl : CollocatedService, BaseServiceImpl<Collocated,Base.CollocatedVo>() {
     @Autowired
-    var collocatedDao: CollocatedDao? = null
+    lateinit var collocatedDao: CollocatedDao
+
+    override fun create(bean: Collocated): Collocated? {
+        if (bean.parent != null) {
+            bean.parent?.children?.add(bean)
+        }
+        return super.create(bean)
+    }
 }

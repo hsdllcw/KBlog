@@ -8,8 +8,6 @@
 	<name>web</name>
 	<url>http://maven.apache.org</url>
 	<build>
-		<outputDirectory>target</outputDirectory>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -22,7 +20,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>cnpm</executable>
+							<executable>npm</executable>
 							<arguments>
 								<argument>install</argument>
 							</arguments>
@@ -44,6 +42,11 @@
 					</execution>
 				</executions>
 			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
 		</plugins>
 	</build>
 </project>

@@ -1,5 +1,5 @@
 # OpooPress 站点配置文件
-debug: false
+#debug: false
 #disqus_short_name: disqus_short_name
 # ----------------------- #
 #      基本属性            #
@@ -15,7 +15,7 @@ subtitle: 又一个 Kblog 站点
 author: hsdllcw
 
 # 站点描述，通常用作页面的 description 属性值
-description: "OpooPress 博客系统是一个基于 Java 的静态博客（网站）生成器。"
+description: "Kblog 是基于 OpooPress 的博客系统。"
 
 # 站点关键字，通常用作页面的 keywords 属性值
 keywords: "OpooPress, 博客, Kblog"
@@ -94,7 +94,7 @@ url: http://localhost:8080/
 
 # 生成的站点的输出目录
 # 默认值 'target/public'
-dest_dir: ./
+dest_dir: ./public
 
 # 工作目录，站点生成过程使用的目录
 # 默认值 'target/work'

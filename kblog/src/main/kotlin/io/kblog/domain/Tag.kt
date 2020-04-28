@@ -1,5 +1,6 @@
 package io.kblog.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 import javax.xml.bind.annotation.XmlTransient
 
@@ -16,6 +17,8 @@ class Tag(
         var sort: Int = 1,
 
         @XmlTransient
-        @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
+        @JsonIgnore
+        @ManyToMany(fetch = FetchType.LAZY)
+        @JoinTable(name = "kblog_page_tag", joinColumns = [JoinColumn(name = "tag_id")], inverseJoinColumns = [JoinColumn(name = "page_id")])
         var pages: MutableSet<Page> = mutableSetOf()
 )

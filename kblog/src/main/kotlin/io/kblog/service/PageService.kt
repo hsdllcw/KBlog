@@ -1,7 +1,8 @@
 package io.kblog.service
 
 import io.kblog.domain.Page
+import io.kblog.domain.Base
 
-interface PageService : PageManageService, BaseService<Page> {
+interface PageService : BaseService<Page,Base.PageVo> {
     fun findByPath(path: String): Page?
 }

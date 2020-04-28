@@ -1,8 +1,10 @@
 package io.kblog.service.impl
 
+import io.kblog.domain.Base
 import io.kblog.domain.Tag
 import io.kblog.repository.TagDao
 import io.kblog.service.TagService
+import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,7 +16,14 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class TagServiceImpl : TagService, BaseServiceImpl<Tag>() {
+class TagServiceImpl : TagService, BaseServiceImpl<Tag, Base.TagVo>() {
     @Autowired
     var tagDao: TagDao? = null
+
+    @Transactional
+    override fun createByVo(vo: Base.TagVo): Tag? {
+        return create(Tag().also { tag ->
+            BeanUtils.copyProperties(vo, tag)
+        })
+    }
 }

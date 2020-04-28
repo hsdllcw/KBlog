@@ -1,5 +1,6 @@
 package io.kblog.service.impl
 
+import io.kblog.domain.Base
 import io.kblog.domain.Model
 import io.kblog.repository.ModelDao
 import io.kblog.service.ModelService
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class ModelServiceImpl : ModelService, BaseServiceImpl<Model>() {
+class ModelServiceImpl : ModelService, BaseServiceImpl<Model,Base.ModelVo>() {
     @Autowired
     var modelDao: ModelDao? = null
 }
