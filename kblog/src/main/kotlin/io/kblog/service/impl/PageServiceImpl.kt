@@ -12,12 +12,10 @@ import io.kblog.service.TagService
 import javassist.NotFoundException
 import org.opoo.press.SiteManager
 import org.opoo.press.impl.KSiteImpl
-import org.opoo.util.PathUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.io.ClassPathResource
 import org.springframework.data.domain.PageRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service

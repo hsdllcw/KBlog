@@ -68,16 +68,15 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>compile</scope>
         </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>io.springside</groupId>-->
-        <!--            <artifactId>springside-utils</artifactId>-->
-        <!--            <version>5.0.0-RC1</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -90,14 +89,12 @@
             <version>3.0.2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.opoo.press/opoopress-core -->
         <dependency>
             <groupId>org.opoo.press</groupId>
             <artifactId>opoopress-core</artifactId>

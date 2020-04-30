@@ -1,11 +1,17 @@
 debug: false
 
 spring:
+  application: kblog
   datasource:
-    url: jdbc:mysql://localhost:3306/kblog?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: ENC(oAEZZ/WKW6myApNG0xkM+O7YHpi+ycWQZfZU9AowyZLNaAjn2C+VNtz0pmci9v2e)
-    password: ENC(1q2KdGxpLEug/ZRUX2ar5omb7HvSzjYCW5xrAO8SUkA+dU2d9UT4N7sURPpGWiBz)
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    mysql:
+      jdbc-url: jdbc:mysql://localhost:3306/kblog?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: ENC(oAEZZ/WKW6myApNG0xkM+O7YHpi+ycWQZfZU9AowyZLNaAjn2C+VNtz0pmci9v2e)
+      password: ENC(1q2KdGxpLEug/ZRUX2ar5omb7HvSzjYCW5xrAO8SUkA+dU2d9UT4N7sURPpGWiBz)
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    h2:
+      username: ENC(oAEZZ/WKW6myApNG0xkM+O7YHpi+ycWQZfZU9AowyZLNaAjn2C+VNtz0pmci9v2e)
+      password: ENC(1q2KdGxpLEug/ZRUX2ar5omb7HvSzjYCW5xrAO8SUkA+dU2d9UT4N7sURPpGWiBz)
+      driver-class-name: org.h2.Driver
   jpa:
     open-in-view: true
     properties:

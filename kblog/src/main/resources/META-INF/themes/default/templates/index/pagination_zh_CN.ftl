@@ -18,4 +18,4 @@
  <a rel="full-article" href="${root_url}${paginator.next.url}" title="下一页">&gt;</a>
 </#if>
 </span>
-<a class="next" href="${root_url}/archives">文章目录</a>
+<a class="next" href="${root_url}/archives/">文章目录</a>

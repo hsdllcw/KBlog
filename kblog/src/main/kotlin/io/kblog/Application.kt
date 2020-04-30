@@ -14,9 +14,7 @@ class Application : SpringBootServletInitializer() {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            runApplication<Application>(*args).environment.systemProperties.apply {
-                this["runType"] = "jar"
-            }
+            runApplication<Application>(*args).environment
         }
     }
 

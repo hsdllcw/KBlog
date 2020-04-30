@@ -27,9 +27,7 @@ class BuildAspect {
     @AfterReturning(pointcut = "buildAspect()")
     @Transactional(readOnly = true)
     fun build(joinPoint: JoinPoint) {
-        if (site.config.get<List<String>>("source_dirs").filter { sourceDir ->
-                    File(site.basedir, sourceDir).listFiles()?.any() == true
-                }.any()) {
+        if (site.config.get<List<String>>("source_dirs").filter { sourceDir -> File(site.basedir, sourceDir).listFiles()?.any() == true }.any()) {
             site.build()
         }
     }
