@@ -18,7 +18,7 @@ import javax.sql.DataSource
  * @version 1.0.0
  */
 @Configuration
-@Import(JpaEntityManager::class)
+@Import(JpaConfig::class)
 class DataSourceConfig {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)

@@ -10,19 +10,17 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.web.context.WebApplicationContext
-import org.springframework.web.util.WebUtils
-import java.io.FileNotFoundException
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
 /**
- * The JpaEntityManager class.
+ * The JpaConfig class.
  * @author hsdllcw on 2020/4/29.
  * @version 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties(JpaProperties::class)
-class JpaEntityManager {
+class JpaConfig {
     @Autowired
     lateinit var jpaProperties: JpaProperties
 
@@ -42,21 +40,15 @@ class JpaEntityManager {
 
     val dataSource: DataSource
         get() {
-            return try {
-                webApplicationConnect.let {
-                    it.servletContext?.let { servletContext ->
-                        WebUtils.getRealPath(servletContext, "/")
-                    }
-                }
-                mysqlDataSource
-            } catch (e: FileNotFoundException) {
+            return if (isRunByJar) {
                 h2DataSource
+            } else {
+                mysqlDataSource
             }
         }
 
     @Bean
     fun entityManagerFactoryBean(builder: EntityManagerFactoryBuilder): LocalContainerEntityManagerFactoryBean {
-
         return builder
                 .dataSource(dataSource)
                 .properties(jpaProperties.properties.apply {
