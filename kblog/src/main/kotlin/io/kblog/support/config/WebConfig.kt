@@ -1,5 +1,6 @@
 package io.kblog.support.config
 
+import io.kblog.support.config.ContextConfig.Companion.isRunByJar
 import io.kblog.support.filter.IndexFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -17,14 +18,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * @author hsdllcw on 2020/5/1.
  * @version 1.0.0
  */
-@Configuration
 class WebConfig : WebMvcConfigurer, BeanDefinitionRegistryPostProcessor {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
-
-    @Autowired
-    var isRunByJar: Boolean = true
 
     override fun postProcessBeanFactory(beanFactory: ConfigurableListableBeanFactory) {}
 

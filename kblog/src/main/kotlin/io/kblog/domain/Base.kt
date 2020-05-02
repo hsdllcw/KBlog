@@ -38,7 +38,6 @@ interface Base {
     ) : Base
 
     open class CategoryVo(
-            open var treeCode: String? = null,
             open var parentId: Int? = null
     ) : Base, TagVo()
 

@@ -1,15 +1,16 @@
 package io.kblog.support.config.orm
 
-import org.springframework.beans.factory.annotation.Autowired
+import io.kblog.support.config.ContextConfig.Companion.isRunByJar
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
+import org.springframework.beans.factory.support.BeanDefinitionRegistry
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
-import org.springframework.web.context.WebApplicationContext
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
@@ -18,37 +19,24 @@ import javax.sql.DataSource
  * @author hsdllcw on 2020/4/29.
  * @version 1.0.0
  */
-@Configuration
 @EnableConfigurationProperties(JpaProperties::class)
-class JpaConfig {
-    @Autowired
-    lateinit var jpaProperties: JpaProperties
+class JpaConfig : BeanDefinitionRegistryPostProcessor {
+    lateinit var registry: BeanDefinitionRegistry
+    lateinit var beanFactory: ConfigurableListableBeanFactory
 
-    @Autowired
-    @Qualifier("mysqlDataSource")
-    lateinit var mysqlDataSource: DataSource
-
-    @Autowired
-    @Qualifier("h2DataSource")
-    lateinit var h2DataSource: DataSource
-
-    @Autowired
-    var isRunByJar: Boolean = true
-
-    @Autowired
-    lateinit var webApplicationConnect: WebApplicationContext
-
-    val dataSource: DataSource
-        get() {
-            return if (isRunByJar) {
-                h2DataSource
-            } else {
-                mysqlDataSource
-            }
+    @Bean("dataSource")
+    fun dataSource(): DataSource {
+        return if (isRunByJar) {
+            registry.removeBeanDefinition("mysqlDataSource")
+            beanFactory.getBean("h2DataSource", DataSource::class.java)
+        } else {
+            registry.removeBeanDefinition("h2DataSource")
+            beanFactory.getBean("mysqlDataSource", DataSource::class.java)
         }
+    }
 
     @Bean
-    fun entityManagerFactoryBean(builder: EntityManagerFactoryBuilder): LocalContainerEntityManagerFactoryBean {
+    fun entityManagerFactoryBean(builder: EntityManagerFactoryBuilder, @Qualifier("dataSource") dataSource: DataSource, jpaProperties: JpaProperties): LocalContainerEntityManagerFactoryBean {
         return builder
                 .dataSource(dataSource)
                 .properties(jpaProperties.properties.apply {
@@ -60,7 +48,16 @@ class JpaConfig {
 
     @Bean
     @Primary
-    fun entityManagerFactory(builder: EntityManagerFactoryBuilder): EntityManagerFactory {
-        return this.entityManagerFactoryBean(builder).getObject()!!
+    fun entityManagerFactory(entityManagerFactoryBean:LocalContainerEntityManagerFactoryBean): EntityManagerFactory {
+        return entityManagerFactoryBean.getObject()!!
+    }
+
+
+    override fun postProcessBeanFactory(beanFactory: ConfigurableListableBeanFactory) {
+        this.beanFactory = beanFactory
+    }
+
+    override fun postProcessBeanDefinitionRegistry(registry: BeanDefinitionRegistry) {
+        this.registry = registry
     }
 }

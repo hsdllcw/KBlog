@@ -7,10 +7,10 @@
       <el-form-item label="栏目标识" prop="sign">
          <el-input v-model="categoryData.sign"></el-input>
       </el-form-item>
-      <el-form-item label="树码" prop="treeCode">
+      <!-- <el-form-item label="树码" prop="treeCode">
          <el-input v-model="categoryData.treeCode"></el-input>
-      </el-form-item>
-            <el-form-item label="父栏目" prop="parentId">
+      </el-form-item> -->
+      <el-form-item label="父栏目" prop="parentId">
         <el-select v-model="categoryData.parentId" placeholder="请选择所属栏目" class="el-col-24">
           <el-option
             v-for="item in categoryListData"
@@ -42,9 +42,9 @@
           sign: [
             { required: true, message: '请输入栏目标识', trigger: 'blur' }
           ],
-          treeCode: [
-            { required: true, message: '请输入树码', trigger: 'blur' }
-          ]
+          // treeCode: [
+          //   { required: true, message: '请输入树码', trigger: 'blur' }
+          // ]
         }
       }
     },

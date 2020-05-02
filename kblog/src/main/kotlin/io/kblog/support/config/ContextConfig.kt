@@ -30,11 +30,12 @@ class ContextConfig {
         const val APIURI: String = "/api"
         const val ADMINAPIURI: String = "${APIURI}/admin"
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    }
-
-    @Bean
-    fun basedir(): File {
-        return (try {
+        val isRunByJar = try {
+            !(ClassPathResource("/").file.listFiles()?.any() ?: true)
+        } catch (e: FileNotFoundException) {
+            true
+        }
+        val basedir: File = (try {
             ClassPathResource("/").file.let { classPathDir ->
                 PathUtils.appendBaseIfNotAbsolute(classPathDir, "META-INF").also { basedir ->
                     arrayOf(
@@ -70,19 +71,10 @@ class ContextConfig {
     }
 
     @Bean
-    fun isRunByJar(): Boolean {
-        return try {
-            !(ClassPathResource("/").file.listFiles()?.any() ?: true)
-        } catch (e: FileNotFoundException) {
-            true
-        }
-    }
-
-    @Bean
     fun configurableServletWebServerFactory(): ConfigurableServletWebServerFactory? {
         return TomcatServletWebServerFactory().apply {
-            if (isRunByJar()) {
-                documentRoot = File(basedir(), "target").apply { mkdirs() }
+            if (isRunByJar) {
+                documentRoot = File(basedir, "target").apply { mkdirs() }
             }
         }
     }

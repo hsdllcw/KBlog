@@ -10,9 +10,9 @@
       <el-form-item label="功能路径" prop="path">
          <el-input v-model="collocatedData.path"></el-input>
       </el-form-item>
-      <el-form-item label="树码" prop="treeCode">
+      <!-- <el-form-item label="树码" prop="treeCode">
          <el-input v-model="collocatedData.treeCode"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="功能图标" prop="icon">
          <el-input v-model="collocatedData.icon"></el-input>
       </el-form-item>
@@ -40,9 +40,9 @@
           path: [
             { required: true, message: '请输入功能路径', trigger: 'blur' }
           ],
-          treeCode: [
-            { required: true, message: '请输入树码', trigger: 'blur' }
-          ],
+          // treeCode: [
+          //   { required: true, message: '请输入树码', trigger: 'blur' }
+          // ],
           icon: [
             { required: true, message: '请输入功能图标', trigger: 'blur' }
           ]
