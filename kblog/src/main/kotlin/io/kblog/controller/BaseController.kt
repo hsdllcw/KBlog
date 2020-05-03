@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 /**
  * The BaseController interface.
@@ -20,12 +21,12 @@ abstract class BaseController<T, E> {
     lateinit var baseService: BaseService<T, E>
 
     @PutMapping(value = ["", "/"])
-    open fun create(@RequestBody bean: E): Any {
+    open fun create(@Valid @RequestBody bean: E): Any {
         return ResponseBean(baseService.createByVo(bean))
     }
 
     @PutMapping(value = ["/{id}"])
-    open fun update(@RequestBody bean: E): Any {
+    open fun update(@Valid @RequestBody bean: E): Any {
         return ResponseBean(baseService.updateByVo(bean))
     }
 

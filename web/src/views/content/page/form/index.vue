@@ -263,16 +263,9 @@
         quill.on('editor-change', this.onEditorChange)
       },
       submitForm(formName) {
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        })
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.page[`${this.pageData.id ? 'update' : 'create'}`](this.pageData).then(() => {
-              loading.close()
               this.$message({
                 message: '保存成功！',
                 type: 'success'

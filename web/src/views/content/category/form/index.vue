@@ -41,7 +41,7 @@
           ],
           sign: [
             { required: true, message: '请输入栏目标识', trigger: 'blur' }
-          ],
+          ]
           // treeCode: [
           //   { required: true, message: '请输入树码', trigger: 'blur' }
           // ]

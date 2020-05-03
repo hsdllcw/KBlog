@@ -7,6 +7,6 @@ package io.kblog.support.common
  */
 class ResponseBean(
         var result: Any? = null,
-        var message: String = "success",
+        var message: String? = "success",
         var status: Int = 200
 )

@@ -1,15 +1,16 @@
 package io.kblog.service.impl
 
 import com.jeecms.common.jpa.SearchFilter
-import io.kblog.domain.Page
-import io.kblog.domain.User
 import io.kblog.domain.Base
 import io.kblog.domain.Category
+import io.kblog.domain.Page
+import io.kblog.domain.User
 import io.kblog.repository.CategoryDao
 import io.kblog.repository.PageDao
 import io.kblog.service.PageService
 import io.kblog.service.TagService
 import javassist.NotFoundException
+import org.opoo.press.Site
 import org.opoo.press.SiteManager
 import org.opoo.press.impl.KSiteImpl
 import org.slf4j.Logger
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.io.File
 import java.nio.charset.Charset
+import java.util.*
 
 /**
  * @author hsdllcw on 2020/3/24.
@@ -56,8 +58,10 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
 
     override fun get(id: Int?): Page? {
         return super.get(id)?.apply {
-            content = File(site.basedir, path!!).run {
-                if (exists()) readText(Charset.forName("UTF-8")) else String()
+            content = this.path?.let { path ->
+                File(site.basedir, path).run {
+                    if (exists()) readText(Charset.forName("UTF-8")) else String()
+                }
             }
         }
     }
@@ -73,9 +77,9 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
                 treeCode = "0000"
             })
         }
-        siteManager.createNewFile(site, bean.layout, bean.title, null, "html", null, null, mapOf("published" to bean.isPublished())).apply {
+        createNewFile(site, bean.layout, "${bean.path ?: bean.title}", null, "html", null, null, mapOf("published" to bean.isPublished())).apply {
             writeText(bean.content ?: "", Charset.forName("UTF-8"))
-            bean.path = this.absolutePath.substring(site.basedir.absolutePath.length)
+            bean.path = absolutePath.substring(site.basedir.absolutePath.length)
         }
         return super.create(bean)
     }
@@ -134,7 +138,9 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
     @Transactional
     override fun delete(bean: Page) {
         super.delete(bean).apply {
-            File(site.basedir, bean.path!!).delete()
+            bean.path?.let { path ->
+                File(site.basedir, path).delete()
+            }
         }
     }
 
@@ -142,6 +148,19 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
     override fun delete(beans: List<Page>) {
         beans.forEach { bean ->
             delete(bean)
+        }
+    }
+
+    @Transactional
+    fun createNewFile(site: Site, layout: String?, title: String?, name: String?, format: String?, newFilePattern: String?, template: String?, meta: Map<String?, Any?>?): File {
+        return siteManager.createNewFile(site, layout, title, name, format, newFilePattern, template, meta).let { newFile ->
+            newFile.absolutePath.substring(site.basedir.absolutePath.length).let { path ->
+                if (findByPath(path) != null) {
+                    createNewFile(site, layout, "${title}-${UUID.randomUUID()}", name, format, newFilePattern, template, meta)
+                } else {
+                    newFile
+                }
+            }
         }
     }
 }

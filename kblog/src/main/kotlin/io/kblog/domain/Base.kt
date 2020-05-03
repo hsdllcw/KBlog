@@ -1,10 +1,8 @@
 package io.kblog.domain
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import org.hibernate.validator.constraints.Length
 import java.util.*
-import javax.persistence.*
-import javax.xml.bind.annotation.XmlTransient
+import javax.validation.constraints.*
 
 /**
  * The Base class.
@@ -16,6 +14,9 @@ interface Base {
 
     open class PageVo(
             override var id: Int? = null,
+            @field:NotNull
+            @field:Length(min = 1, max = 128, message = "文章标题的字数需要在1-128之间")
+            @field:Pattern(regexp = "[^\\s\\\\/:*?\"<>|](\\x20|[^\\s\\\\/:*?\"<>|])*[^\\s\\\\/:*?\"<>|]$", message = "文章标题不应该包括/:*?\"<>|\\等特殊字符")
             open var title: String? = null,
             open var content: String? = null, //模板正文
             open var tagIds: List<Int>? = null,
@@ -43,6 +44,9 @@ interface Base {
 
     open class TagVo(
             override var id: Int? = null,
+            @field:NotNull
+            @field:Pattern(regexp = "[^\\s\\\\/:*?\"<>|](\\x20|[^\\s\\\\/:*?\"<>|])*[^\\s\\\\/:*?\"<>|]$", message = "名称不应该包括/:*?\"<>|\\等特殊字符")
+            @field:Length(min = 1, max = 15, message = "名称的字数需要在1-10之间")
             open var name: String? = null,
             open var sign: String? = null
     ) : Base
