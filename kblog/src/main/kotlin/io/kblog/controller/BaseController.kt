@@ -1,7 +1,6 @@
 package io.kblog.controller
 
 import com.jeecms.common.jpa.SearchFilter
-import io.kblog.domain.Base
 import io.kblog.service.BaseService
 import io.kblog.support.common.ResponseBean
 import org.springframework.beans.factory.annotation.Autowired
