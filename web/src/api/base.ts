@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { Loading, Message } from 'element-ui'
-import { ElLoadingComponent } from 'element-ui/types/loading'
 // import qs from 'qs'
-const { adminApiURI } = require('@/utils')
+import { adminApiURI }  from '@/utils'
 
-let loading: ElLoadingComponent;
+let loading;
 
 function starLoading() {
     loading = Loading.service({

@@ -1,16 +1,25 @@
 {
-    "compilerOptions": {
-        // 与 Vue 的浏览器支持保持一致
-        "target": "es5",
-        // 这可以对 `this` 上的数据属性进行更严格的推断
-        "strict": true,
-        // 如果使用 webpack 2+ 或 rollup，可以利用 tree-shake:
-        "module": "ES6",
-        "lib": [
-            "DOM",
-            "ES2015.Promise",
-            "ES5"
-        ],
-        "moduleResolution": "node"
+  "compilerOptions": {
+    "target": "es5",
+    "types": ["node"], // 包含 Node.js 类型定义
+    "lib": ["es6", "dom"],
+    "module": "commonjs", // 支持 require 语法
+    "moduleResolution": "node",
+    "strict": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
     }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
