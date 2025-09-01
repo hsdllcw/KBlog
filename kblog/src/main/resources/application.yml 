@@ -1,0 +1,6 @@
+# Spring默认环境配置
+spring:
+  profiles:
+    active:
+      - mysql
+      - base
