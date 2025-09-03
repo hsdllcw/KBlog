@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("${ContextConfig.ADMINAPIURI}/category")
+@RequestMapping("${ContextConfig.ADMIN_API_URI}/category")
 class CategoryController : BaseController<Category, Base.CategoryVo>() {
     @Autowired
     lateinit var categoryService: CategoryService

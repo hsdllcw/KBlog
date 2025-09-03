@@ -42,7 +42,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http
                 .authorizeRequests()
-                .mvcMatchers("${ContextConfig.ADMINAPIURI}/**")
+                .mvcMatchers("${ContextConfig.ADMIN_API_URI}/**")
                 .authenticated()
                 .and()
                 .formLogin().apply {

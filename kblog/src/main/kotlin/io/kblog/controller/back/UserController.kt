@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("${ContextConfig.ADMINAPIURI}/user")
+@RequestMapping("${ContextConfig.ADMIN_API_URI}/user")
 class UserController : BaseController<User,Base.UserVo>() {
 
     @Autowired

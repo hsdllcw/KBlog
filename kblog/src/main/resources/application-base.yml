@@ -29,3 +29,5 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
+kblog:
+  path:

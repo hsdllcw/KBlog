@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("${ContextConfig.ADMINAPIURI}/global")
+@RequestMapping("${ContextConfig.ADMIN_API_URI}/global")
 class GlobalController : BaseController<Global,Base.GlobalVo>() {
     @Autowired
     lateinit var globalService: GlobalService

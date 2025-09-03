@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("${ContextConfig.ADMINAPIURI}/page")
+@RequestMapping("${ContextConfig.ADMIN_API_URI}/page")
 class PageController : BaseController<Page, Base.PageVo>() {
     @Autowired
     lateinit var site: KSiteImpl

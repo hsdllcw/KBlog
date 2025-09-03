@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("${ContextConfig.ADMINAPIURI}/site")
+@RequestMapping("${ContextConfig.ADMIN_API_URI}/site")
 class SiteController : BaseController<Site,Base.SiteVo>() {
     @Autowired
     lateinit var siteService: SiteService

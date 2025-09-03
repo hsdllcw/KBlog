@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("${ContextConfig.ADMINAPIURI}/collocated")
+@RequestMapping("${ContextConfig.ADMIN_API_URI}/collocated")
 class CollocatedController : BaseController<Collocated,Base.CollocatedVo>() {
     @Autowired
     lateinit var collocatedService: CollocatedService

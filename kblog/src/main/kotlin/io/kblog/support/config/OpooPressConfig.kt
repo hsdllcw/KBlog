@@ -2,7 +2,6 @@ package io.kblog.support.config
 
 import io.kblog.domain.Global
 import io.kblog.service.GlobalService
-import io.kblog.support.config.ContextConfig.Companion.basedir
 import org.opoo.press.SiteManager
 import org.opoo.press.impl.ConfigImpl
 import org.opoo.press.impl.SiteManagerImpl
@@ -26,6 +25,8 @@ import java.io.FileNotFoundException
 @Configuration
 @ComponentScan("org.opoo.press")
 class OpooPressConfig {
+    @Autowired
+    lateinit var basedir:File
 
     @Autowired
     lateinit var webApplicationConnect: WebApplicationContext
