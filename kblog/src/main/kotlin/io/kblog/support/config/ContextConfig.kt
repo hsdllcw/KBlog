@@ -77,11 +77,11 @@ class ContextConfig {
             }
         }
         val isRunByJar = detectDeploymentEnvironment == DeploymentEnvironment.JAR
-        val isRunByWar = detectDeploymentEnvironment == DeploymentEnvironment.JAR
+        val isRunByWar = detectDeploymentEnvironment == DeploymentEnvironment.WAR
     }
 
     @Value("\${kblog.path:}")
-    var kblogPath: String? = null
+    var kblogPath: String? = null //war包部署的时候该配置无意义
 
     @Bean("basedir")
     fun getKblogDir(): File = if (StringUtils.isNotEmpty(kblogPath) && !isRunByWar) File(kblogPath!!) else {
@@ -105,7 +105,7 @@ class ContextConfig {
         logger.info(initializationBean)
         return TomcatServletWebServerFactory().apply {
             if (isRunByJar) {
-                documentRoot = File(kblogDir, WEBAPP_PATH)
+                documentRoot = PathUtils.appendBaseIfNotAbsolute(kblogDir, WEBAPP_PATH).apply { mkdir() }
             }
         }
     }
@@ -120,12 +120,6 @@ class ContextConfig {
                 mkdir()
             }
             ZipUtil.unzip(ApplicationHome().source, baseDir)
-            // Copy index.html
-            FileUtil.copy(
-                File(baseDir, "WEB-INF/classes/webapp/index.html"),
-                File(kblogDir, WEBAPP_PATH).apply { mkdirs() },
-                false
-            )
         } else baseDir = classPathDir
         // Copy themes
         FileUtil.copy(
