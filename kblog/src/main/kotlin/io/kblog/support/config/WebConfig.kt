@@ -1,5 +1,6 @@
 package io.kblog.support.config
 
+import com.ruoyi.file.service.LocalSysFileServiceImpl
 import io.kblog.support.filter.IndexFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * @author hsdllcw on 2020/5/1.
  * @version 1.0.0
  */
-@Import(IndexFilter::class)
+@Import(IndexFilter::class, LocalSysFileServiceImpl::class)
 class WebConfig : WebMvcConfigurer {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
