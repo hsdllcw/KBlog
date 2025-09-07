@@ -31,41 +31,9 @@
         <image-upload v-model="pageData.poster" action="/upload"></image-upload>
       </el-form-item>
       <el-form-item label="正文">
+        <image-upload class="quill-image-upload" @on-success="richUploadSuccess" action="/upload" v-show="false"></image-upload>
         <div id="quill-editor" ref="quill-editor"></div>
       </el-form-item>
-      <!-- <el-form-item label="活动时间" required>
-        <el-col :span="11">
-          <el-form-item prop="date1">
-            <el-date-picker type="date" placeholder="选择日期" v-model="page.date1" style="width: 100%;"></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-form-item prop="date2">
-            <el-time-picker placeholder="选择时间" v-model="page.date2" style="width: 100%;"></el-time-picker>
-          </el-form-item>
-        </el-col>
-      </el-form-item> -->
-      <!-- <el-form-item label="即时配送" prop="delivery">
-        <el-switch v-model="page.delivery"></el-switch>
-      </el-form-item> -->
-      <!-- <el-form-item label="活动性质" prop="type">
-        <el-checkbox-group v-model="page.type">
-          <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-          <el-checkbox label="地推活动" name="type"></el-checkbox>
-          <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-          <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="特殊资源" prop="resource">
-        <el-radio-group v-model="page.resource">
-          <el-radio label="线上品牌商赞助"></el-radio>
-          <el-radio label="线下场地免费"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="活动形式" prop="desc">
-        <el-input type="textarea" v-model="page.desc"></el-input>
-      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" @click="submitForm('pageData')">{{pageData.id?'保存修改':'立即创建'}}</el-button>
         <el-button @click="resetForm('pageData')">重置</el-button>
@@ -136,41 +104,41 @@
       [{ 'indent': '-1' }, { 'indent': '+1' }],     // 缩进
       [{ 'color': [] }, { 'background': [] }],     // 字体颜色，字体背景颜色
       [{ 'align': [] }],    // 对齐方式
-      ['clean']    // 清除字体样式
-      // ['image'],
+      ['clean'],   // 清除字体样式
+      ['link', 'image']  // 链接，图片，视频
       // ['custom']  // 添加一个自定义功能
     ],
-    // // 自定义富文本的图片上传
-    // imageFunction(val) {
-    //   if(val) {
-    //     document.querySelector('#img-upload input').click()
-    //   } else {
-    //     this.quill.format('image', false)
-    //   }
-    // },
+    // 自定义富文本的图片上传
+    imageFunction(val) {
+      if(val) {
+        document.querySelector('.quill-image-upload input').click()
+      } else {
+        this.quill.format('image', false)
+      }
+    },
     methods: {
-      // // 富文本中的图片上传
-      // richUploadSuccess(response, file, fileList) {
-      //   /**
-      //    * 如果上传成功
-      //    * ps：不同的上传接口，判断是否成功的标志也不一样，需要看后端的返回
-      //    * 通常情况下，应该有返回上传的结果状态（是否上传成功）
-      //    * 以及，图片上传成功后的路径
-      //    * 将路径赋值给 imgUrl
-      //    */
-      //   if(response.files.file) {
-      //     let imgUrl = response.files.file
-      //     // 获取光标所在位置
-      //     let length = this.quill.getSelection().index
-      //     // 插入图片，res为服务器返回的图片链接地址
-      //     this.quill.insertEmbed(length, 'image', imgUrl)
-      //     // 调整光标到最后
-      //     this.quill.setSelection(length + 1)
-      //   } else {
-      //     // 提示信息，需引入Message
-      //     this.$message.error('图片插入失败')
-      //   }
-      // },
+      // 富文本中的图片上传
+      richUploadSuccess(response) {
+        /**
+         * 如果上传成功
+         * ps：不同的上传接口，判断是否成功的标志也不一样，需要看后端的返回
+         * 通常情况下，应该有返回上传的结果状态（是否上传成功）
+         * 以及，图片上传成功后的路径
+         * 将路径赋值给 imgUrl
+         */
+        if(response.result) {
+          let imgUrl = response.result.url
+          // 获取光标所在位置
+          let length = this.quill.getSelection().index
+          // 插入图片，res为服务器返回的图片链接地址
+          this.quill.insertEmbed(length, 'image', imgUrl)
+          // 调整光标到最后
+          this.quill.setSelection(length + 1)
+        } else {
+          // 提示信息，需引入Message
+          this.$message.error('图片插入失败')
+        }
+      },
       onEditorChange(eventName, ...args) {
         if(eventName === 'text-change') {
           // args[0] will be delta
@@ -204,11 +172,11 @@
           debug: 'error',
           modules: {
             toolbar: {
-              container: this.$options.toolbarOptions
-              // handlers: {  // 自定义功能
-              //   'image': this.$options.imageFunction,
-              //   'custom': this.quillCustomFunction
-              // }
+              container: this.$options.toolbarOptions,
+              handlers: {  // 自定义功能
+                'image': this.$options.imageFunction
+                // 'custom': this.quillCustomFunction
+              }
             },
             imageDrop: true,
             imageResize: {

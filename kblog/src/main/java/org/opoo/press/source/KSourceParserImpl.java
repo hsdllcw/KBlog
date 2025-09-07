@@ -84,6 +84,9 @@ public class KSourceParserImpl extends SourceParserImpl implements SourceParser 
             if (page != null) {
                 // noinspection unchecked,rawtypes,rawtypes
                 map = (Map) BeanUtils.describe(page);
+                if (map.containsKey("description") && map.get("description") != null) {
+                    map.put("description", page.getDesription());
+                }
                 if (map.containsKey("tags") && map.get("tags") != null) {
                     map.put("tags", page.getTags().stream().map(Tag::getName).collect(Collectors.toList()));
                 }
@@ -93,7 +96,7 @@ public class KSourceParserImpl extends SourceParserImpl implements SourceParser 
                 if (map.containsKey("published") && map.get("published") != null) {
                     map.put("published", page.isPublished());
                 }
-                if (map.containsKey("date") && map.get("date") != null) {
+                if (map.containsKey("publishDate") && map.get("publishDate") != null) {
                     map.put("date", page.getPublishDate());
                 }
             }

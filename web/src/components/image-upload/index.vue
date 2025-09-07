@@ -17,7 +17,7 @@
       :headers="headers"
       :file-list="fileList"
       :on-preview="handlePictureCardPreview"
-      :class="{ hide: fileList.length >= limit }"
+      :class="{ hide: fileList.length >= limit, imageUpload: true }"
     >
       <i class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
@@ -176,6 +176,7 @@ export default {
       if (res.status === 200) {
         this.uploadList.push({ name: res.result.name, url: res.result.url })
         this.uploadedSuccessfully()
+        this.$emit('on-success', res, file)
       } else {
         this.number--
         Loading.service().close()
