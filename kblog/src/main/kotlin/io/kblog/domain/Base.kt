@@ -23,7 +23,9 @@ interface Base {
         open var title: String? = null,
         open var content: String? = null, //模板正文
         open var tagIds: List<Int>? = null,
-        open var categoryId: Int? = null
+        open var categoryId: Int? = null,
+        open var poster: String? = null,
+        open var desription: String? = null,
     ) : Base
 
     open class UserVo(

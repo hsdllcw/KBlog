@@ -28,7 +28,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="文章封面" prop="poster">
-        <image-upload v-model="pageData.poster" action="/upload"></image-upload>
+        <image-upload v-model="pageData.poster" @on-success="handleImageUpload" action="/upload"></image-upload>
       </el-form-item>
       <el-form-item label="正文">
         <image-upload class="quill-image-upload" @on-success="richUploadSuccess" action="/upload" v-show="false"></image-upload>
@@ -117,6 +117,9 @@
       }
     },
     methods: {
+      handleImageUpload(response) {
+        this.pageData.poster = response.result.url
+      },
       // 富文本中的图片上传
       richUploadSuccess(response) {
         /**
