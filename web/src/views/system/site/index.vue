@@ -4,13 +4,10 @@
       <el-form-item label="站点名称" prop="name">
          <el-input v-model="siteData.name"></el-input>
       </el-form-item>
-      <el-form-item label="站点标识" prop="sign">
-         <el-input v-model="siteData.sign"></el-input>
-      </el-form-item>
       <el-form-item label="域名" prop="domain">
          <el-input v-model="siteData.domain"></el-input>
       </el-form-item>
-      <el-form-item label="主题" prop="templateTheme">
+      <el-form-item v-if="false" label="主题" prop="templateTheme">
          <el-input v-model="siteData.templateTheme"></el-input>
       </el-form-item>
       <el-form-item>

@@ -33,8 +33,8 @@ class SysFileController {
         try {
             // 上传并返回访问地址
             return ResponseBean(SysFile().apply {
-                name = FileUtils.getName(url)
                 url = sysFileService.uploadFile(file)
+                name = FileUtils.getName(url)
             })
         } catch (e: Exception) {
             log.error("上传文件失败", e)

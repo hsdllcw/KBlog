@@ -4,12 +4,15 @@ import com.ruoyi.file.service.ISysFileService
 import com.ruoyi.file.utils.FileUploadUtils
 import io.kblog.service.GlobalService
 import io.kblog.service.SiteService
+import io.kblog.support.filter.IndexFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Service
+import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.util.WebUtils
 import java.io.File
 
 @Primary
@@ -34,15 +37,21 @@ class LocalSysFileServiceImpl : ISysFileService {
     /**
      * 上传文件存储在本地的根路径
      */
-    val localFilePath: String by lazy { File(kblogDir.absolutePath, localFilePrefix).absolutePath }
+    val localFilePath: String by lazy {
+        File(
+            IndexFilter.webappDirAbsolutePath,
+            localFilePrefix
+        ).absolutePath
+    }
 
     /**
      * 域名或本机访问地址
      */
     val domain: String?
         get() {
-            return globalService.get(1)?.let { global ->
-                global.protocol + siteService.get(1)?.domain + (if (global.port == 443 || global.port == 80) ":$global.port" else "")
+            return globalService.findAll()?.first()?.let { global ->
+                global.protocol + "://" + siteService.findAll()
+                    ?.first()?.domain + (if (global.port == 443 || global.port == 80) "/" else ":${global.port}/")
             }
         }
 

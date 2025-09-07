@@ -9,8 +9,7 @@ import io.kblog.service.SiteService
 import io.kblog.support.common.ResponseBean
 import io.kblog.support.config.ContextConfig
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -21,7 +20,12 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("${ContextConfig.ADMIN_API_URI}/site")
-class SiteController : BaseController<Site,Base.SiteVo>() {
+class SiteController : BaseController<Site, Base.SiteVo>() {
     @Autowired
     lateinit var siteService: SiteService
+
+    @GetMapping("first")
+    fun getFirst(): Any {
+        return ResponseBean(siteService.findAll()?.firstOrNull())
+    }
 }

@@ -23,6 +23,7 @@ router.beforeEach((to, from, next) => {
     } else {
       // 有token，没有permissions
       if (store.getters.permissions.length === 0) {
+        store.dispatch('site/getCurrentSite')
         store.dispatch('pullUserInfo').then(resp => {
           const permissions = resp.permissions
           store.dispatch('GenerateRoutes', { permissions }).then(() => {

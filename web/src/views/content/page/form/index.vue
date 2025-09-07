@@ -4,12 +4,32 @@
       <el-form-item label="文档标题" prop="title">
          <el-input v-model="pageData.title"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="状态" prop="status">
-        <el-select v-model="pageData.status" placeholder="请选择状态">
-          <el-option label="正常" value="NORMAL"></el-option>
-          <el-option label="草稿" value="DRAFT"></el-option>
+      <el-form-item label="文档描述" prop="desription">
+        <el-input v-model="pageData.desription"></el-input>
+      </el-form-item>
+      <el-form-item label="所属栏目" prop="categoryId">
+        <el-select v-model="pageData.categoryId" placeholder="请选择所属栏目">
+          <el-option
+            v-for="item in categoryData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
         </el-select>
-      </el-form-item> -->
+      </el-form-item>
+      <el-form-item label="所属标签" prop="tagIds">
+        <el-select v-model="pageData.tagIds" multiple placeholder="请选择所属标签">
+          <el-option
+            v-for="item in tagData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="文章封面" prop="poster">
+        <image-upload v-model="pageData.poster" action="/upload"></image-upload>
+      </el-form-item>
       <el-form-item label="正文">
         <div id="quill-editor" ref="quill-editor"></div>
       </el-form-item>
@@ -48,48 +68,9 @@
       </el-form-item> -->
       <el-form-item>
         <el-button type="primary" @click="submitForm('pageData')">{{pageData.id?'保存修改':'立即创建'}}</el-button>
-        <el-button type="primary" @click="dialog = true">高级设置</el-button>
         <el-button @click="resetForm('pageData')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-drawer
-      :before-close="handleClose"
-      :visible.sync="dialog"
-      direction="rtl"
-      custom-class="demo-drawer"
-      ref="drawer"
-      >
-      <el-container>
-        <el-main>
-          <el-form :model="pageData">
-            <el-form-item label="栏目" prop="categoryId" :label-width="formLabelWidth">
-              <el-select v-model="pageData.categoryId" placeholder="请选择所属栏目" class="el-col-24">
-                <el-option
-                  v-for="item in categoryData"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="标签" prop="tagIds" :label-width="formLabelWidth">
-              <el-select v-model="pageData.tagIds" multiple placeholder="请选择所属标签" class="el-col-24">
-                <el-option
-                  v-for="item in tagData"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </el-main>
-        <el-footer style="text-align: right;">
-          <el-button @click="cancelForm">取 消</el-button>
-          <el-button type="primary" @click="$refs.drawer.closeDrawer()">{{ loading ? '提交中 ...' : '确 定' }}</el-button>
-        </el-footer>
-      </el-container>
-    </el-drawer>
   </el-container>
 </template>
 <script>
@@ -101,10 +82,13 @@
   import Quill from 'quill'
   import ImageResize from 'quill-image-resize-module'
   import { ImageDrop } from 'quill-image-drop-module'
+  import ImageUpload from '@/components/image-upload'
+
   Quill.register('modules/imageResize', ImageResize)
   Quill.register('modules/imageDrop', ImageDrop)
 
   export default {
+    components: { ImageUpload },
     data() {
       return {
         page: new Page(),
@@ -141,8 +125,6 @@
           // ]
         },
         loading: false,
-        dialog: false,
-        formLabelWidth: '80px',
         timer: null
       }
     },
@@ -293,7 +275,6 @@
           .catch(_ => {})
       },
       cancelForm() {
-        this.dialog = false
         clearTimeout(this.timer)
       }
     },

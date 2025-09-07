@@ -10,7 +10,7 @@
       </p>
       <p class="eva-p">您好，欢迎来到Kblog后台</p>
     </div>
-    <div class="index-cotent">
+    <div v-if="false" class="index-content">
       <h2 class="eva-h2">
         <i class="u14"></i>系统信息
       </h2>

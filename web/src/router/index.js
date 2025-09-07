@@ -135,38 +135,38 @@ export const constantRouterMap = [
       }
     ]
   },
-  {
-    path: '/collocated',
-    component: Layout,
-    redirect: '/collocated/index',
-    // alwaysShow: true,
-    meta: {
-      icon: 'location-outline',
-      title: '功能管理'
-    },
-    children: [
-      {
-        path: 'index',
-        name: 'Collocated',
-        component: () => import('@/views/collocated/index'),
-        meta: {icon: 'location-outline', title: '功能管理'}
-      },
-      {
-        path: '/collocated/create',
-        name: 'CreateCollocated',
-        hidden: true,
-        component: () => import('@/views/collocated/form/index'),
-        meta: {icon: 'star-on', title: '新建功能'}
-      },
-      {
-        path: '/collocated/update',
-        name: 'UpdateCollocated',
-        hidden: true,
-        component: () => import('@/views/collocated/form/index'),
-        meta: {icon: 'star-on', title: '修改功能'}
-      }
-    ]
-  },
+  // {
+  //   path: '/collocated',
+  //   component: Layout,
+  //   redirect: '/collocated/index',
+  //   // alwaysShow: true,
+  //   meta: {
+  //     icon: 'location-outline',
+  //     title: '功能管理'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Collocated',
+  //       component: () => import('@/views/collocated/index'),
+  //       meta: {icon: 'location-outline', title: '功能管理'}
+  //     },
+  //     {
+  //       path: '/collocated/create',
+  //       name: 'CreateCollocated',
+  //       hidden: true,
+  //       component: () => import('@/views/collocated/form/index'),
+  //       meta: {icon: 'star-on', title: '新建功能'}
+  //     },
+  //     {
+  //       path: '/collocated/update',
+  //       name: 'UpdateCollocated',
+  //       hidden: true,
+  //       component: () => import('@/views/collocated/form/index'),
+  //       meta: {icon: 'star-on', title: '修改功能'}
+  //     }
+  //   ]
+  // },
   {
     path: '/system',
     component: Layout,

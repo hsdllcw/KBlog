@@ -35,7 +35,12 @@ class IndexFilter : Filter {
     private val webappDir: File? by lazy { File(WebUtils.getRealPath(webApplicationConnect.servletContext!!, "/")) }
     private val indexHtmlFile by lazy { File(webappDir, "index.html") }
 
+    companion object {
+        var webappDirAbsolutePath: String? = null;
+    }
+
     override fun doFilter(request: ServletRequest, response: ServletResponse?, filterChain: FilterChain?) {
+        webappDirAbsolutePath = webappDir?.absolutePath
         if (requestMappingHandlerMapping.getHandler(request as HttpServletRequest) == null && request.requestURI.last() == '/') {
             if (!File(webappDir, "index.html").exists()) {
                 // Copy index.html
