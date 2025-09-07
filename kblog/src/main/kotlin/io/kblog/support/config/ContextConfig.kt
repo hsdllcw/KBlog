@@ -84,11 +84,13 @@ class ContextConfig {
     var kblogPath: String? = null //war包部署的时候该配置无意义
 
     @Bean("basedir")
-    fun getKblogDir(): File = if (StringUtils.isNotEmpty(kblogPath) && !isRunByWar) File(kblogPath!!) else {
-        if (isRunByJar)
-            PathUtils.appendBaseIfNotAbsolute(File(System.getProperty("user.dir")), KBLOG_DIR_NAME)
-        else
-            File(classPathDir, "META-INF")
+    fun getKblogDir(): File {
+        return if (StringUtils.isNotEmpty(kblogPath) && !isRunByWar) File(kblogPath!!) else {
+            if (isRunByJar)
+                PathUtils.appendBaseIfNotAbsolute(File(System.getProperty("user.dir")), KBLOG_DIR_NAME)
+            else
+                File(classPathDir, "META-INF")
+        }
     }
 
     @Bean("initializationBean")
@@ -105,32 +107,32 @@ class ContextConfig {
         logger.info(initializationBean)
         return TomcatServletWebServerFactory().apply {
             if (isRunByJar) {
-                documentRoot = PathUtils.appendBaseIfNotAbsolute(kblogDir, WEBAPP_PATH).apply { mkdir() }
+                documentRoot = File(kblogDir, WEBAPP_PATH).apply { mkdir() }
             }
         }
     }
 
     private fun initializeApplication(kblogDir: File) {
-        val baseDir: File?
+        val resourceDir: File?
         if (isRunByJar) {
-            baseDir = PathUtils.appendBaseIfNotAbsolute(
+            resourceDir = PathUtils.appendBaseIfNotAbsolute(
                 File(System.getProperty("java.io.tmpdir")),
                 KBLOG_DIR_NAME
             ).apply {
                 mkdir()
             }
-            ZipUtil.unzip(ApplicationHome().source, baseDir)
-        } else baseDir = classPathDir
+            ZipUtil.unzip(ApplicationHome().source, resourceDir)
+        } else resourceDir = classPathDir
         // Copy themes
         FileUtil.copy(
             File(
-                baseDir,
+                resourceDir,
                 if (isRunByJar) "WEB-INF/classes/META-INF/themes" else "META-INF/themes"
             ),
             kblogDir,
             false
         )
-        if (isRunByJar) FileUtil.del(baseDir)
+        if (isRunByJar) FileUtil.del(resourceDir)
     }
 
     enum class DeploymentEnvironment {

@@ -94,7 +94,7 @@ public class KSourceParserImpl extends SourceParserImpl implements SourceParser 
                     map.put("published", page.isPublished());
                 }
                 if (map.containsKey("date") && map.get("date") != null) {
-                    map.put("date", page.getDate());
+                    map.put("date", page.getPublishDate());
                 }
             }
 

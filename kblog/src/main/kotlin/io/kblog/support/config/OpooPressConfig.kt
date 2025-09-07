@@ -1,12 +1,15 @@
 package io.kblog.support.config
 
 import io.kblog.domain.Global
+import io.kblog.domain.Site
 import io.kblog.service.GlobalService
+import io.kblog.service.SiteService
 import org.opoo.press.SiteManager
 import org.opoo.press.impl.ConfigImpl
 import org.opoo.press.impl.SiteManagerImpl
 import org.springframework.beans.factory.BeanCreationException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -26,25 +29,28 @@ import java.io.FileNotFoundException
 @ComponentScan("org.opoo.press")
 class OpooPressConfig {
     @Autowired
-    lateinit var basedir:File
+    @Qualifier("basedir")
+    lateinit var kblogDir: File
 
     @Autowired
     lateinit var webApplicationConnect: WebApplicationContext
 
     @Transactional
     @Bean("config")
-    fun config(globalService: GlobalService): ConfigImpl {
+    fun config(globalService: GlobalService, siteService: SiteService): ConfigImpl {
         return webApplicationConnect.servletContext?.let { servletContext ->
-            ConfigImpl(basedir,
-                    (globalService.findAll()?.firstOrNull() ?: globalService.create(Global().apply {
-                        this.customs = Yaml().load<Map<String, String>>(ClassPathResource("config.yml").inputStream)
-                    }))?.customs?.toMutableMap()?.apply {
-                        this["dest_dir"] = try {
-                            File(WebUtils.getRealPath(servletContext, "/")).absolutePath
-                        } catch (e: FileNotFoundException) {
-                            File("${System.getProperty("user.dir")}${File.separator}KBlog${File.separator}target").apply { mkdir() }.absolutePath
-                        }
-                    }?.toMap()
+            ConfigImpl(kblogDir,
+                (globalService.findAll()?.firstOrNull() ?: globalService.create(Global().also { global ->
+                    global.customs = Yaml().load<Map<String, String>>(ClassPathResource("config.yml").inputStream)
+                }).also { global ->
+                    siteService.create(Site().apply { this.global = global })
+                })?.customs?.toMutableMap()?.also { customs ->
+                    customs["dest_dir"] = try {
+                        File(WebUtils.getRealPath(servletContext, "/")).absolutePath
+                    } catch (e: FileNotFoundException) {
+                        File(kblogDir, ContextConfig.WEBAPP_PATH).apply { mkdir() }.absolutePath
+                    }
+                }?.toMap()
             ).apply {
                 get<List<String>>("source_dirs").forEach { sourceDir ->
                     File(this.basedir, sourceDir).mkdirs()

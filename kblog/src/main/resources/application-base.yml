@@ -31,3 +31,6 @@ logging:
         SQL: DEBUG
 kblog:
   path:
+file:
+  domain: "https://localhost:8080"
+  prefix: assets

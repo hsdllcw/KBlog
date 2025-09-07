@@ -19,6 +19,7 @@ class Page(
         var title: String? = null,
         var layout: String = "post",
         var path: String? = null,//模板路径(正文)
+        var poster: String? = null,
         @Transient
         var content: String? = null,//模板正文
         var uri: String? = null,//编译后的路径
@@ -48,7 +49,7 @@ class Page(
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_MINUTE_PATTERN)
-    var date: Date = Calendar.getInstance().time
+    var publishDate: Date = Calendar.getInstance().time
 
     enum class PageStatus(private val value: String, private val description: String) {
         NORMAL("NORMAL", "正常"), DRAFT("DRAFT", "草稿");

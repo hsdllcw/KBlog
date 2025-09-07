@@ -11,7 +11,7 @@ class Global(
         @GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate_sequences")
         override var id: Int? = null,
         override var protocol: String = "http",
-        override var port: Int = 8080,
+        override var port: Int = 80,
         override var version: String = "1.0.0-SNAPSHOT",
         @ElementCollection
         @CollectionTable(name = "kblog_global_custom", joinColumns = [JoinColumn(name = "global_id")])
