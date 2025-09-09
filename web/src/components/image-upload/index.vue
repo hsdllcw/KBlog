@@ -99,12 +99,13 @@ export default {
     }
   },
   data() {
+    var port = store.state.site.global.port
     return {
       number: 0,
       uploadList: [],
       dialogImageUrl: '',
       dialogVisible: false,
-      baseUrl: store.state.site.domain,
+      baseUrl: store.state.site.global.protocol + '://' + store.state.site.domain + (port && (port !== 80 && port !== 443) ? ':' + port : ''),
       uploadImgUrl: adminApiURI + this.action,
       headers: { 'x-xsrf-token': Cookies.get('XSRF-TOKEN') },
       fileList: []
@@ -113,6 +114,31 @@ export default {
   computed: {
     showTip() {
       return this.isShowTip && (this.fileType || this.fileSize)
+    }
+  },
+  watch: {
+    value: {
+      handler(val) {
+        if (val) {
+          // 首先将值转为数组
+          const list = Array.isArray(val) ? val : this.value.split(',')
+          // 然后将数组转为对象数组
+          this.fileList = list.map(item => {
+            if (typeof item === 'string') {
+              if (!item.startsWith('http')) {
+                item = { name: this.baseUrl + item, url: this.baseUrl + item }
+              } else {
+                item = { name: item, url: item }
+              }
+            }
+            return item
+          })
+        } else {
+          this.fileList = []
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   mounted() {
