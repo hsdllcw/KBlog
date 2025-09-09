@@ -99,13 +99,12 @@ export default {
     }
   },
   data() {
-    var port = store.state.site.global.port
     return {
       number: 0,
       uploadList: [],
       dialogImageUrl: '',
       dialogVisible: false,
-      baseUrl: store.state.site.global.protocol + '://' + store.state.site.domain + (port && (port !== 80 && port !== 443) ? ':' + port : ''),
+      baseUrl: store.getters['site/baseUrl'],
       uploadImgUrl: adminApiURI + this.action,
       headers: { 'x-xsrf-token': Cookies.get('XSRF-TOKEN') },
       fileList: []
