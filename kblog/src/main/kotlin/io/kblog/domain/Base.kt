@@ -26,6 +26,8 @@ interface Base {
         open var categoryId: Int? = null,
         open var poster: String? = null,
         open var desription: String? = null,
+        open var linkIs: Boolean = false,
+        open var outlink: String? = null, //外链地址
     ) : Base
 
     open class UserVo(

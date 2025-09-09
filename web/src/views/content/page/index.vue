@@ -63,7 +63,7 @@
           <el-table-column label="ID" prop="id" width="55"></el-table-column>
           <el-table-column label="标题" prop="title">
             <template slot-scope="scope">
-              <el-link :href="baseUrl + scope.row.uri" type="primary" target="_blank">{{ scope.row.title }}</el-link>
+              <el-link :href="scope.row.linkIs? scope.row.outlink : (baseUrl + scope.row.uri)" type="primary" target="_blank">{{ scope.row.title }}</el-link>
             </template>
           </el-table-column>
           <el-table-column label="作者" prop="author" width="80"></el-table-column>
@@ -80,11 +80,11 @@
             <template slot-scope="scope">
               <el-popover
                 placement="top"
-                title="博客页面地址"
+                title="文章链接"
                 width="200"
                 trigger="click"
-                :content="baseUrl + scope.row.uri">
-                <el-button icon="el-icon-paperclip" size="mini" slot="reference" @click="copyLink(baseUrl + scope.row.uri)">复制地址</el-button>
+                :content="scope.row.linkIs? scope.row.outlink : (baseUrl + scope.row.uri)">
+                <el-button icon="el-icon-paperclip" size="mini" slot="reference" @click="copyLink(scope.row.linkIs? scope.row.outlink : (baseUrl + scope.row.uri))">复制地址</el-button>
               </el-popover>
               <el-button
                 icon="el-icon-edit"

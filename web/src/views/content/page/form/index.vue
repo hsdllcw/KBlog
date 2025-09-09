@@ -30,7 +30,18 @@
       <el-form-item label="文章封面" prop="poster">
         <image-upload v-model="pageData.poster" @on-success="handleImageUpload" action="/upload"></image-upload>
       </el-form-item>
-      <el-form-item label="正文">
+      <el-form-item label="文章外链" prop="linkIs">
+        <el-switch
+          v-model="pageData.linkIs"
+          active-text="外链文章"
+          @change="toggleLink"
+        >
+        </el-switch>
+      </el-form-item>
+      <el-form-item v-if="pageData.linkIs" label="文章地址" prop="outlink">
+        <el-input v-model="pageData.outlink"></el-input>
+      </el-form-item>
+      <el-form-item label="正文" v-show="!pageData.linkIs">
         <image-upload class="quill-image-upload" @on-success="richUploadSuccess" action="/upload" v-show="false"></image-upload>
         <div id="quill-editor" ref="quill-editor"></div>
       </el-form-item>
@@ -71,26 +82,21 @@
         rules: {
           title: [
             { required: true, message: '请输入文档标题', trigger: 'blur' }
+          ],
+          outlink: [
+            { required: true, message: '请输入文章外链', trigger: 'blur' },
+            {validator: (rule, value, callback) => {
+              if (value === '') {
+                callback(new Error('请输入文章外链'))
+              } else {
+                if (!value.startsWith('http://') && !value.startsWith('https://')) {
+                  callback(new Error('请输入正确的外链地址'))
+                } else {
+                  callback()
+                }
+              }
+            }, trigger: 'blur'}
           ]
-          // status: [
-          //   { required: true, message: '请选择文档状态', trigger: 'change' },
-          //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          // ],
-          // date1: [
-          //   { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          // ],
-          // date2: [
-          //   { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          // ],
-          // type: [
-          //   { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-          // ],
-          // resource: [
-          //   { required: true, message: '请选择活动资源', trigger: 'change' }
-          // ],
-          // desc: [
-          //   { required: true, message: '请填写活动形式', trigger: 'blur' }
-          // ]
         },
         loading: false,
         timer: null
@@ -218,6 +224,9 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            if(this.pageData.linkIs) {
+              this.pageData.content = `<p><a href="${this.pageData.outlink}">点击阅读</a></p>`
+            }
             this.page[`${this.pageData.id ? 'update' : 'create'}`](this.pageData).then(() => {
               this.$message({
                 message: '保存成功！',
@@ -247,6 +256,11 @@
       },
       cancelForm() {
         clearTimeout(this.timer)
+      },
+      toggleLink(linkIs) {
+        if(!linkIs) {
+          this.pageData.content = undefined
+        }
       }
     },
     mounted() {
