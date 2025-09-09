@@ -71,8 +71,8 @@
     mounted() {
       Promise.all([
         new Promise((resolve, reject) => {
-          if(this.$route.params.categoryData) {
-            this.category.get(this.$route.params.categoryData.id).then(result => {
+          if(this.$route.query.id) {
+            this.category.get(this.$route.query.id).then(result => {
               let categoryData = result[`data`][`result`]
               if(!this.categoryData || this.categoryData.id !== categoryData.id) {
                 this.categoryData = categoryData

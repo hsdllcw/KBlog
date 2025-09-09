@@ -55,8 +55,8 @@
       }
     },
     mounted() {
-      if(this.$route.params.tagData) {
-        this.tag.get(this.$route.params.tagData.id).then(result => {
+      if(this.$route.query.id) {
+        this.tag.get(this.$route.query.id).then(result => {
           let tagData = result[`data`][`result`]
           if(!this.tagData || this.tagData.id !== tagData.id) {
             this.tagData = tagData

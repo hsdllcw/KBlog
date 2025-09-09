@@ -70,8 +70,8 @@
       }
     },
     mounted() {
-      if(this.$route.params.collocatedData) {
-        this.collocated.get(this.$route.params.collocatedData.id).then(result => {
+      if(this.$route.query.id) {
+        this.collocated.get(this.$route.query.id).then(result => {
           let collocatedData = result[`data`][`result`]
           if(!this.collocatedData || this.collocatedData.id !== collocatedData.id) {
             this.collocatedData = collocatedData

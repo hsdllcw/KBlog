@@ -265,8 +265,8 @@
     },
     mounted() {
       if(this.$route.name === `UpdatePage`) {
-        if(this.$route.params.pageData) {
-          this.page.get(this.$route.params.pageData.id).then(result => {
+        if(this.$route.query.id) {
+          this.page.get(this.$route.query.id).then(result => {
             let pageData = result[`data`][`result`]
             if(!this.pageData || this.pageData.id !== pageData.id) {
               pageData.tagIds = pageData.tags.map(item => item.id)

@@ -101,7 +101,7 @@ export default {
       ) {
         this.$router.push({
           name: `UpdateCollocated`,
-          params: { collocatedData: row || this.selectData[0] }
+          query: { id: (row || this.selectData[0]).id }
         })
       } else if (this.selectData.length > 0) {
         this.$message({
