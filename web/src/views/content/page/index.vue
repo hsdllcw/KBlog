@@ -41,7 +41,7 @@
           <el-table-column label="ID" prop="id" width="55"></el-table-column>
           <el-table-column label="标题" prop="title"></el-table-column>
           <el-table-column label="作者" prop="author"></el-table-column>
-          <el-table-column label="发布时间" prop="date"></el-table-column>
+          <el-table-column label="发布时间" prop="publishDate"></el-table-column>
           <el-table-column label="状态" prop="status" width="55"></el-table-column>
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">

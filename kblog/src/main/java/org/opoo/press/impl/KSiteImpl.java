@@ -230,7 +230,7 @@ public class KSiteImpl implements Site, SiteBuilder, InitializingBean {
         this.staticFiles = Collections.synchronizedList(new ArrayList<>());
     }
 
-    void resetCategories() {
+    public void resetCategories() {
         this.categories = new LinkedHashMap<>();
         Map<String, String> names = config.get("category_names");
         if (names == null || names.isEmpty()) {

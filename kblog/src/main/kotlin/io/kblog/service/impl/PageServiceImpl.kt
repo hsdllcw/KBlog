@@ -12,7 +12,10 @@ import io.kblog.service.TagService
 import javassist.NotFoundException
 import org.opoo.press.Site
 import org.opoo.press.SiteManager
+import org.opoo.press.SourceEntry
+import org.opoo.press.impl.KFactoryImpl
 import org.opoo.press.impl.KSiteImpl
+import org.opoo.press.source.SimpleSource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
@@ -52,6 +55,9 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
     @Autowired
     lateinit var siteManager: SiteManager
 
+    @Autowired
+    lateinit var factory: KFactoryImpl
+
     override fun findByPath(path: String): Page? {
         return pageDao.findByPath(path)
     }
@@ -77,9 +83,28 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
                 treeCode = "0000"
             })
         }
-        createNewFile(site, bean.layout, "${bean.path ?: bean.title}", null, "html", null, null, mapOf("published" to bean.isPublished())).apply {
+        createNewFile(
+            site,
+            bean.layout,
+            "${bean.path ?: bean.title}",
+            null,
+            "html",
+            null,
+            null,
+            mapOf("published" to bean.isPublished())
+        ).apply {
             writeText(bean.content ?: "", Charset.forName("UTF-8"))
             bean.path = absolutePath.substring(site.basedir.absolutePath.length)
+            bean.uri = factory.createPost(
+                site.apply { this.resetCategories() }, SimpleSource(
+                    SourceEntry(this),
+                    mutableMapOf<String?, Any?>().apply {
+                        putAll(org.apache.commons.beanutils.BeanUtils.describe(bean))
+                        put("date", bean.publishDate)
+                        put("published", bean.isPublished())
+                    }, bean.content
+                )
+            ).id
         }
         return super.create(bean)
     }
@@ -89,11 +114,18 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
         return create(Page().also { page ->
             BeanUtils.copyProperties(vo, page).run {
                 page.apply {
-                    this.tags = vo.tagIds?.map { it.toString() }?.toTypedArray()?.run { if (this.any()) this else null }?.let { tagIds ->
-                        tagService.findAll(SearchFilter.spec(mapOf("IN_id" to tagIds)), PageRequest.of(0, Int.MAX_VALUE))?.content?.toHashSet()
-                    } ?: mutableSetOf()
+                    this.tags = vo.tagIds?.map { it.toString() }?.toTypedArray()?.run { if (this.any()) this else null }
+                        ?.let { tagIds ->
+                            tagService.findAll(
+                                SearchFilter.spec(mapOf("IN_id" to tagIds)),
+                                PageRequest.of(0, Int.MAX_VALUE)
+                            )?.content?.toHashSet()
+                        } ?: mutableSetOf()
                     this.category = vo.categoryId?.toString()?.let { categoryId ->
-                        categoryDao.findAll(SearchFilter.spec(mapOf("EQ_id" to arrayOf(categoryId))), PageRequest.of(0, Int.MAX_VALUE)).firstOrNull()
+                        categoryDao.findAll(
+                            SearchFilter.spec(mapOf("EQ_id" to arrayOf(categoryId))),
+                            PageRequest.of(0, Int.MAX_VALUE)
+                        ).firstOrNull()
                     }
                 }
             }
@@ -104,11 +136,18 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
     override fun updateByVo(vo: Base.PageVo): Page? {
         return update((get(vo.id) ?: throw NotFoundException("Page ID ${vo.id} Not Found")).apply {
             BeanUtils.copyProperties(vo, this)
-            this.tags = vo.tagIds?.map { it.toString() }?.toTypedArray()?.run { if (this.any()) this else null }?.let { tagIds ->
-                tagService.findAll(SearchFilter.spec(mapOf("IN_id" to tagIds)), PageRequest.of(0, Int.MAX_VALUE))?.content?.toHashSet()
-            } ?: mutableSetOf()
+            this.tags = vo.tagIds?.map { it.toString() }?.toTypedArray()?.run { if (this.any()) this else null }
+                ?.let { tagIds ->
+                    tagService.findAll(
+                        SearchFilter.spec(mapOf("IN_id" to tagIds)),
+                        PageRequest.of(0, Int.MAX_VALUE)
+                    )?.content?.toHashSet()
+                } ?: mutableSetOf()
             this.category = vo.categoryId?.toString()?.let { categoryId ->
-                categoryDao.findAll(SearchFilter.spec(mapOf("EQ_id" to arrayOf(categoryId))), PageRequest.of(0, Int.MAX_VALUE)).firstOrNull()
+                categoryDao.findAll(
+                    SearchFilter.spec(mapOf("EQ_id" to arrayOf(categoryId))),
+                    PageRequest.of(0, Int.MAX_VALUE)
+                ).firstOrNull()
             } ?: this.category
             File(site.basedir, path!!).apply {
                 parentFile.mkdir()
@@ -152,15 +191,34 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
     }
 
     @Transactional
-    fun createNewFile(site: Site, layout: String?, title: String?, name: String?, format: String?, newFilePattern: String?, template: String?, meta: Map<String?, Any?>?): File {
-        return siteManager.createNewFile(site, layout, title, name, format, newFilePattern, template, meta).let { newFile ->
-            newFile.absolutePath.substring(site.basedir.absolutePath.length).let { path ->
-                if (findByPath(path) != null) {
-                    createNewFile(site, layout, "${title}-${UUID.randomUUID()}", name, format, newFilePattern, template, meta)
-                } else {
-                    newFile
+    fun createNewFile(
+        site: Site,
+        layout: String?,
+        title: String?,
+        name: String?,
+        format: String?,
+        newFilePattern: String?,
+        template: String?,
+        meta: Map<String?, Any?>?
+    ): File {
+        return siteManager.createNewFile(site, layout, title, name, format, newFilePattern, template, meta)
+            .let { newFile ->
+                newFile.absolutePath.substring(site.basedir.absolutePath.length).let { path ->
+                    if (findByPath(path) != null) {
+                        createNewFile(
+                            site,
+                            layout,
+                            "${title}-${UUID.randomUUID()}",
+                            name,
+                            format,
+                            newFilePattern,
+                            template,
+                            meta
+                        )
+                    } else {
+                        newFile
+                    }
                 }
             }
-        }
     }
 }
