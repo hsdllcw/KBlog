@@ -99,7 +99,10 @@ class PageServiceImpl : PageService, BaseServiceImpl<Page, Base.PageVo>() {
                 site.apply { this.resetCategories() }, SimpleSource(
                     SourceEntry(this),
                     mutableMapOf<String?, Any?>().apply {
-                        putAll(org.apache.commons.beanutils.BeanUtils.describe(bean))
+                        putAll(org.apache.commons.beanutils.BeanUtils.describe(bean).also {
+                            it.remove("tags")
+                            it.remove("category")
+                        })
                         put("date", bean.publishDate)
                         put("published", bean.isPublished())
                     }, bean.content

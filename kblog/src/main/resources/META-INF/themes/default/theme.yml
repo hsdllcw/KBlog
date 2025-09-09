@@ -32,7 +32,7 @@ email:
 
 
 # 主导航菜单
-navs: {"文章": "/", "归档": "/archives/", "示例页面": "/sample-page.html", "关于": "/about/"}
+navs: {"文章": "/", "归档": "/archives/"}
 
 # 默认的侧边栏所包含的块。
 # 被设置的块应该位于  [模板路径]/asides 目录，如 'templates/asides'.

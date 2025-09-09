@@ -6,7 +6,7 @@ export default class Site extends Base {
   domain: string | undefined;
   templateTheme: string | undefined;
   enabled: boolean | undefined;
-  static domain: String = '/site'
+  static domain: String = 'site'
   
   constructor() {
     super(Site.domain)
