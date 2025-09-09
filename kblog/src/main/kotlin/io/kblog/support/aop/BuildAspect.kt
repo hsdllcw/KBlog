@@ -1,5 +1,6 @@
 package io.kblog.support.aop
 
+import io.kblog.service.PageService
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
@@ -21,13 +22,19 @@ class BuildAspect {
     @Autowired
     lateinit var site: KSiteImpl
 
+    @Autowired
+    lateinit var pageService: PageService
+
     @Pointcut("execution(* io.kblog.controller.BaseController.create(..)) || execution(* io.kblog.controller.BaseController.update(..)) || execution(* io.kblog.controller.BaseController.delete(..))")
     fun buildAspect(): Unit = Unit
 
     @AfterReturning(pointcut = "buildAspect()")
     @Transactional(readOnly = true)
     fun build(joinPoint: JoinPoint) {
-        if (site.config.get<List<String>>("source_dirs").filter { sourceDir -> File(site.basedir, sourceDir).listFiles()?.any() == true }.any()) {
+        if (site.config.get<List<String>>("source_dirs")
+                .filter { sourceDir -> File(site.basedir, sourceDir).listFiles()?.any() == true }.any()
+        ) {
+            site.set("pageList", pageService.findAll())
             site.build()
         }
     }

@@ -22,7 +22,6 @@ class Page(
     var poster: String? = null,
     var linkIs: Boolean = false,
     var outlink: String? = null, //外链地址
-    @Transient
     var content: String? = null,//模板正文
     var uri: String? = null,//编译后的路径
     var comments: Boolean = false,
