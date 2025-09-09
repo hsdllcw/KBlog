@@ -2,7 +2,8 @@
 layout: nil
 ---
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:media="http://www.rssboard.org/media-rss">
   <title><![CDATA[${ site.title }]]></title>
   <link href="${ site.url }${root_url}/atom.xml" rel="self"/>
   <link href="${ site.url }${root_url}/"/>
@@ -22,15 +23,23 @@ layout: nil
   <#list the_posts as post>
   <entry>
     <title type="html"><![CDATA[${ post.title}]]></title>
-    <linkis><![CDATA[${post.linkIs?c}]]></linkis>
-    <link href="${ site.url }${root_url}${ post.uri }"/>
+    <link href="${ site.url }${root_url}${ post.uri }" rel="alternate"/>
     <updated>${ post.publishDate?datetime?iso_local}</updated>
     <id>${ site.url }${root_url}${ post.uri }</id>
-    <category>
-      <name><![CDATA[${post.category.name}]]></name>
-    </category>
-    <#if post.poster?? ><poster><![CDATA[${post.poster}]]></poster></#if>
-    <#if post.desription?? ><desription type="html"><![CDATA[${post.desription}]]></desription></#if>
+    <#if post.category.parent?? >
+      <category term="${post.category.parent.name}" label="${post.category.name}"/>
+    <#else>
+      <category term="${post.category.name}" label="${post.category.name}"/>
+    </#if>
+    <#if post.linkIs && post.outlink??>
+    <source>
+      <title><![CDATA[${post.title}]]></title>
+      <link href="${post.outlink}" rel="alternate"/>
+      <id>${post.outlink}</id>
+    </source>
+    </#if>
+    <#if post.poster?? ><media:thumbnail url="${post.poster}"/></#if>
+    <#if post.desription?? ><summary type="html"><![CDATA[${post.desription}]]></summary></#if>
   </entry>
 </#list>
 </feed>
