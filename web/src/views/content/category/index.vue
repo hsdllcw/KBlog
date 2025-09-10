@@ -135,7 +135,7 @@ export default {
       this._getList()
     },
     handleCurrentChange(data) {
-      this.number = data
+      this.number = data - 1
       this._getList()
     },
     createCategory() {
