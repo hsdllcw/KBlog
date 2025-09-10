@@ -3,7 +3,7 @@
     <el-switch v-model="toggleParticles"
       inactive-color="#ff4949">
     ></el-switch>
-    <el-button class="show-account" type="text" @click="accountTip">提示帐号信息</el-button>
+    <el-button v-if="isDev" class="show-account" type="text" @click="accountTip">提示帐号信息</el-button>
     <el-card class="animated flipInY">
       <div slot="header" class="el-card-header">
         <lang-select class="lang-select"></lang-select>
@@ -82,7 +82,8 @@
             { required: true, trigger: 'blur', validator: validatePassword },
             { required: true, trigger: 'change', validator: validatePassword }
           ]
-        }
+        },
+        isDev: process.env.NODE_ENV === 'development'
       }
     },
     created() {
@@ -254,7 +255,9 @@
       }
     },
     mounted() {
-      this.accountTip()
+      if(isDev) {
+        this.accountTip()
+      }
     }
   }
 </script>
