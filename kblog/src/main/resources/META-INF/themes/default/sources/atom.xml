@@ -18,7 +18,7 @@ layout: nil
   <#if (site.get("pageList")?size <= 20)>
 	<#assign the_posts = site.get("pageList") >
   <#else>
-    <#assign the_posts = site.get("pageList")[0..19]>
+    <#assign the_posts = site.get("pageList")[0..500]>
   </#if>
   <#list the_posts as post>
   <entry>
