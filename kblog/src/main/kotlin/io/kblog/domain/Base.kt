@@ -2,6 +2,7 @@ package io.kblog.domain
 
 import org.hibernate.validator.constraints.Length
 import java.util.*
+import javax.persistence.Transient
 import javax.validation.constraints.*
 
 /**
@@ -21,6 +22,7 @@ interface Base {
             message = "文章标题不应该包括/:*?\"<>|\\等特殊字符"
         )
         open var title: String? = null,
+        @Transient
         open var content: String? = null, //模板正文
         open var tagIds: List<Int>? = null,
         open var categoryId: Int? = null,
@@ -70,19 +72,19 @@ interface Base {
 
     open class SiteVo(
         override var id: Int? = null,
-        open var name: String = "Kblog",
+        open var name: String? = null,
         open var sign: String? = null,
-        open var domain: String = "localhost",
+        open var domain: String? = null,
         open var templateTheme: String? = null,
         open var enabled: Boolean = true
     ) : Base
 
     open class GlobalVo(
         override var id: Int? = null,
-        open var protocol: String = "http",
-        open var port: Int = 80,
-        open var version: String = "1.0.0-SNAPSHOT",
-        open var customs: Map<String, String?> = mutableMapOf()
+        open var protocol: String? = null,
+        open var port: Int? = null,
+        open var version: String? = null,
+        open var customs: MutableMap<String, String?> = mutableMapOf()
     ) : Base
 
     open class ModelVo(

@@ -21,9 +21,9 @@ class Site(
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "parent_id")
         var parent: Site? = null,
-        override var name: String = "Kblog",
+        override var name: String? = null,
         override var sign: String? = null,
-        override var domain: String = "localhost",
+        override var domain: String? = null,
         override var templateTheme: String? = null,
         override var enabled: Boolean = true
 ) : Base.SiteVo()

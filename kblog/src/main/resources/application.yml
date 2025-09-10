@@ -2,5 +2,6 @@
 spring:
   profiles:
     active:
-      - h2
       - base
+      - h2
+      - default-site

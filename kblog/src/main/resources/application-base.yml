@@ -1,5 +1,11 @@
 debug: false
-
+# Tomcat
+server:
+  port: 8080
+  error:
+    include-stacktrace: always
+  servlet:
+    context-path: /
 spring:
   application: kblog
   datasource:
@@ -29,8 +35,3 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
-kblog:
-  path:
-file:
-  domain: "https://localhost:8080"
-  prefix: assets

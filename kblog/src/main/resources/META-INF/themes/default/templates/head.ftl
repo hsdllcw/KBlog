@@ -20,7 +20,7 @@
   <#if (paginator.next)??><link href="${root_url}${paginator.next.url}" rel="next" /></#if>
   <#if (paginator.previous)??><link href="${root_url}${paginator.previous.url}" rel="prev" /></#if>
   <link href="${ root_url }/favicon.ico" rel="icon">
-  <link href="${ site.subscribe_rss }" rel="alternate" title="${site.title}" type="application/atom+xml">
+  <link href="${ root_url }${ site.subscribe_rss }" rel="alternate" title="${site.title}" type="application/atom+xml">
   <link href="${ root_url }/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->

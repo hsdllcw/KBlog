@@ -2,12 +2,11 @@ package io.kblog.service.impl
 
 import io.kblog.domain.Base
 import io.kblog.domain.User
-import io.kblog.repository.RoleDao
 import io.kblog.repository.UserDao
 import io.kblog.service.RoleService
 import io.kblog.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -24,13 +23,16 @@ import org.springframework.transaction.annotation.Transactional
 class UserServiceImpl : UserService, BaseServiceImpl<User, Base.UserVo>() {
 
     @Autowired
-    private val passwordEncoder: BCryptPasswordEncoder? = null
+    lateinit var passwordEncoder: BCryptPasswordEncoder
 
     @Autowired
-    private val userDao: UserDao? = null
+    lateinit var userDao: UserDao
 
     @Autowired
-    private val roleService: RoleService? = null
+    lateinit var roleService: RoleService
+
+    @Value("\${kblog.password}")
+    lateinit var initPassword: String
 
     @Transactional
     override fun create(bean: User): User? {
@@ -42,9 +44,10 @@ class UserServiceImpl : UserService, BaseServiceImpl<User, Base.UserVo>() {
     }
 
     @Transactional
-    override fun loadUserByUsername(username: String?) = findByUsername(username)?.apply { roleService?.getAuthorityByUser(this) }
+    override fun loadUserByUsername(username: String?) =
+        findByUsername(username)?.apply { roleService?.getAuthorityByUser(this) }
             ?: (if (username == "admin") create(User().apply {
                 this.username = username
-                password = "123456"
+                password = initPassword
             }) else throw UsernameNotFoundException("$username Not Found"))
 }
