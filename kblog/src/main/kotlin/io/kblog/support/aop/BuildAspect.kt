@@ -1,6 +1,7 @@
 package io.kblog.support.aop
 
 import io.kblog.service.PageService
+import org.apache.commons.lang3.Strings
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
@@ -35,7 +36,7 @@ class BuildAspect {
                 .filter { sourceDir -> File(site.basedir, sourceDir).listFiles()?.any() == true }.any()
         ) {
             site.set("pageList", pageService.findAll())
-            site.build()
+            site.build(Strings.CS.equals(joinPoint.signature.name, "delete"))
         }
     }
 }
