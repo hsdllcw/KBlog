@@ -95,7 +95,9 @@
                   callback()
                 }
               }
-            }, trigger: 'blur'}
+            },
+              trigger: 'blur'
+            }
           ]
         },
         loading: false,
