@@ -13,7 +13,7 @@ layout: nil
     <name><![CDATA[${ site.author}]]></name>
     <#if site.email?? ><email><![CDATA[${ site.email }]]></email></#if>
   </author>
-  <generator uri="http://press.opoo.org/">OpooPress</generator>
+  <generator uri="https://github.com/hsdllcw">hsdllcw</generator>
 
   <#assign the_posts = site.get("pageList")[0..*500]>
   <#list the_posts as post>
@@ -23,10 +23,13 @@ layout: nil
     <updated>${ post.publishDate?datetime?iso_local}</updated>
     <id>${ site.url }${root_url}${ post.uri }</id>
     <#if post.category.parent?? >
-      <category term="${post.category.parent.name}" label="${post.category.name}"/>
+      <category scheme="${ site.url }${root_url}/category/" term="${post.category.sign}" label="${post.category.name}"/>
     <#else>
-      <category term="${post.category.name}" label="${post.category.name}"/>
+      <category scheme="${ site.url }${root_url}/category/" term="${post.category.sign}" label="${post.category.name}"/>
     </#if>
+    <#list post.tags as tag>
+    <category scheme="${ site.url }${root_url}/tag/" term="${tag.sign}" label="${tag.name}"/>
+    </#list>
     <#if post.linkIs && post.outlink??>
     <source>
       <title><![CDATA[${post.title}]]></title>
