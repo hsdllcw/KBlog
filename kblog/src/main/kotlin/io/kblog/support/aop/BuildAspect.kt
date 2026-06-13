@@ -50,7 +50,7 @@ class BuildAspect {
                             "id"
                         )
                     )
-                )
+                )?.content
             )
             site.build(Strings.CS.equals(joinPoint.signature.name, "delete"))
         }
