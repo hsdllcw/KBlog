@@ -39,7 +39,7 @@ layout: nil
     </#if>
     <#if post.poster?? ><media:thumbnail url="${post.poster}"/></#if>
     <#if post.desription?? ><summary type="html"><![CDATA[${post.desription}]]></summary></#if>
-    <#if post.content??><content type="html"><![CDATA[${post.content}]]></content></#if>
+    <#if post.content?? ><content type="html"><![CDATA[${post.content}]]></content></#if>
   </entry>
 </#list>
 </feed>

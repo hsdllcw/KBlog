@@ -69,7 +69,7 @@ export default {
         label: `name`
       },
       number: 0,
-      size: 10
+      size: 1000
     }
   },
   methods: {

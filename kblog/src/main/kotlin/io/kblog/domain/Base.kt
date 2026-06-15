@@ -22,7 +22,6 @@ interface Base {
             message = "文章标题不应该包括/:*?\"<>|\\等特殊字符"
         )
         open var title: String? = null,
-        @Transient
         open var content: String? = null, //模板正文
         open var tagIds: List<Int>? = null,
         open var categoryId: Int? = null,

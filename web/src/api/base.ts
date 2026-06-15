@@ -71,7 +71,7 @@ export abstract class Base {
         })
     }
 
-    getList = (data: any = {}, page: Number = 0, size: Number = 10) => {
+    getList = (data: any = {}, page: Number = 0, size: Number = 1000) => {
         return axios({
             method: 'post',
             url: `${adminApiURI}/${this.domain}/page/${page}/size/${size}`,
